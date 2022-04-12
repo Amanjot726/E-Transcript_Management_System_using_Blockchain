@@ -21,11 +21,13 @@ class Blockchain:
         self.chain = []
         self.create_block(proof=1, previous_hash='0')
 
-    def create_block(self, proof, previous_hash):
+    def create_block(self, proof, previous_hash, dataHash=None):
         block = {'index': len(self.chain) + 1,
                  'timestamp': str(datetime.datetime.now()),
                  'proof': proof,
-                 'previous_hash': previous_hash}
+                 'previous_hash': previous_hash,
+                 'dataHash': dataHash
+                 }
         self.chain.append(block)
         return block
 
