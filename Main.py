@@ -8,10 +8,12 @@
 import datetime
 import hashlib
 import json
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request, render_template
+from werkzeug.utils import secure_filename
 
 
 # Part 1 - Building a Blockchain
+
 
 class Blockchain:
 
@@ -41,6 +43,13 @@ class Blockchain:
                 new_proof += 1
         return new_proof
 
+    def proof_of_authority(self, document):
+        document_hash = self.document_to_hash(document)
+        for block in self.chain:
+            if block['hash'] == document_hash:
+                return block['proof']
+        return None
+
     def hash(self, block):
         encoded_block = json.dumps(block, sort_keys=True).encode()
         return hashlib.sha256(encoded_block).hexdigest()
@@ -60,6 +69,16 @@ class Blockchain:
             previous_block = block
             block_index += 1
         return True
+
+    def document_to_hash(self, document):
+        encoded_document = json.dumps(document, sort_keys=True).encode()
+        return hashlib.sha256(encoded_document).hexdigest()
+
+    def file_to_sha256(file_name):
+        file = open(file_name, 'rb')
+        file_content = file.read()
+        file.close()
+        return hashlib.sha256(file_content).hexdigest()
 
 
 # Part 2 - Mining our Blockchain
@@ -106,5 +125,19 @@ def is_valid():
     return jsonify(response), 200
 
 
+@app.route('/upload')
+def upload_file():
+    return render_template('upload.html')
+
+
+@app.route('/uploader', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save(secure_filename(f.filename))
+        return 'file uploaded successfully'
+
+
 # Running the app
-app.run(host='0.0.0.0', port=5000)
+app.run(host='0.0.0.0')
+app.config['C:\Users\DELL\Desktop\Transcript Management Project\static\uploads']
