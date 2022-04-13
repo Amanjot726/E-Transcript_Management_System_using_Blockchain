@@ -8,8 +8,9 @@
 import datetime
 import hashlib
 import json
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, redirect, url_for
 from werkzeug.utils import secure_filename
+import os
 
 
 # Part 1 - Building a Blockchain
@@ -21,13 +22,15 @@ class Blockchain:
         self.chain = []
         self.create_block(proof=1, previous_hash='0')
 
-    def create_block(self, proof, previous_hash, dataHash=None):
-        block = {'index': len(self.chain) + 1,
-                 'timestamp': str(datetime.datetime.now()),
-                 'proof': proof,
-                 'previous_hash': previous_hash,
-                 'dataHash': dataHash
-                 }
+    def create_block(self, proof, previous_hash, FileHash=None):
+        block = {
+            'index': len(self.chain) + 1,
+             'timestamp': str(datetime.datetime.now()),
+             'proof': proof,
+             'previous_hash': previous_hash,
+        }
+        if FileHash != None:
+            block['filehash'] = FileHash
         self.chain.append(block)
         return block
 
@@ -76,7 +79,7 @@ class Blockchain:
         encoded_document = json.dumps(document, sort_keys=True).encode()
         return hashlib.sha256(encoded_document).hexdigest()
 
-    def file_to_sha256(file_name):
+    def file_to_sha256(self, file_name):
         file = open(file_name, 'rb')
         file_content = file.read()
         file.close()
@@ -87,6 +90,14 @@ class Blockchain:
 
 # Creating a Web App
 app = Flask(__name__)
+# app.config[r'C:\Users\DELL\Desktop\Transcript Management Project\static\uploads']
+app.config['UPLOAD_FOLDER'] = '.\static\\uploads'
+UPLOAD_FOLDER = app.config['UPLOAD_FOLDER']
+# app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+# app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+
+
 
 # Creating a Blockchain
 blockchain = Blockchain()
@@ -94,12 +105,12 @@ blockchain = Blockchain()
 
 # Mining a new block
 @app.route('/mine_block', methods=['GET'])
-def mine_block():
+def mine_block(file_hash=None):
     previous_block = blockchain.get_previous_block()
     previous_proof = previous_block['proof']
     proof = blockchain.proof_of_work(previous_proof)
     previous_hash = blockchain.hash(previous_block)
-    block = blockchain.create_block(proof, previous_hash)
+    block = blockchain.create_block(proof, previous_hash, file_hash)
     response = {'message': 'Congratulations, you just mined a block!',
                 'index': block['index'],
                 'timestamp': block['timestamp'],
@@ -127,19 +138,28 @@ def is_valid():
     return jsonify(response), 200
 
 
-@app.route('/upload')
-def upload_file():
-    return render_template('upload.html')
-
-
-@app.route('/uploader', methods=['GET', 'POST'])
+@app.route('/upload', methods=['GET','POST'])
 def upload_file():
     if request.method == 'POST':
         f = request.files['file']
-        f.save(secure_filename(f.filename))
-        return 'file uploaded successfully'
+        #save file to uploads folder
+        try:
+            f.save(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
+            #get file hash
+            file_hash = blockchain.file_to_sha256(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
+            print("file hash =", file_hash)
+            r = mine_block(file_hash)[0]
+            return render_template('upload.html', upload='success', response=r)
+        except Exception as e:
+            print(e)
+            return render_template('upload.html', upload='fail')
+    else:
+        return render_template('upload.html')
+
+
+# @app.route('/uploader')
+# def save_file():
 
 
 # Running the app
-app.run(host='0.0.0.0')
-app.config['C:\Users\DELL\Desktop\Transcript Management Project\static\uploads']
+app.run(host='0.0.0.0', debug=True)
