@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie|Lato|Pacifico|Raleway|Merriweather|Passion+One:wght@400;700;900|Roboto+Slab:wght@300;400&display=swap">
+    <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-grid.min.css">
+    <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-reboot.css">
+    <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-reboot.min.css">
+    <link rel="stylesheet" type="text/css" href="static\css\style.css">
+    <title>Login - Transcript Management</title>
+</head>
+
+<body oncontextmenu="()=>{return false;}">
+    <div class="container">
+        <div class="heading-1 text-center">Transcript Management System</div>
+      <center>
+        <div class="card col-xl-auto">
+          <div class="login-form" id = "login-f">
+            <center><div class="heading"><a style="margin-top: 8px;">Login</a></div>
+            <form method = "POST" name = "login-form" id = "login_form" action="/login">
+                <br>
+              <div class="sign-in">
+                <div class="col-auto">
+                    <div class="input-group mb-2">
+                      <input type="text" class="form-control" id="uname" placeholder="Username"  aria-required="true" autocapitalize="off" autocorrect="off" name="username" value required>
+                    </div>
+                </div>
+                <div class="col-auto mt-2">
+                    <div class="input-group mb-2">
+                      <input type="password" class="form-control" placeholder="Password" name="password" id="pass" required autocomplete="false">
+                    </div>
+                    <!-- <small id="passwordHelpInline" class="text-muted" style="float: left;">
+                      Must be 8-20 characters long.
+                    </small> -->
+                    <div>
+                      <div class="custom-control custom-checkbox mr-sm-2 mt-3">
+                        <input type="checkbox" class="custom-control-input" id="show-pass">
+                        <label class="custom-control-label show-hide-pass" for="show-pass">Show Password</label>
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                  <div class="col-sm-10"><button type="button" class="btn btn-outline-primary login" id="login" onclick="validate()" disabled>Login</button></div>
+                </div>
+                <div class="mb-4"><a href="/forgot-pass" class="f-p">&nbsp;&nbsp;Forgot password ?</a> </div>
+<!--                <div class="mt-3 mb-4">Don't have an account? <a class="s-ui" id="ch-auth-su">Sign up</a></div>-->
+              </div>
+            </form>
+            </center>
+          </div>
+
+<!--          <div class="signup-form" id="signup-f">-->
+<!--            <center><div class="heading"><a style="margin-top: 8px;">Sign up</a></div>-->
+<!--            <form method = "POST" name = "signup-form" id="signup_form" action="/signup">-->
+<!--                <br>-->
+<!--              <div class="sign-in">-->
+<!--                <div class="col-auto">-->
+<!--                    <div class="input-group mb-2">-->
+<!--                      <input type="email" class="form-control" placeholder="Email" name="email" id="email" aria-required="true" autocapitalize="off" autocorrect="off" value required>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-auto" style="margin-top: 10px;">-->
+<!--                  <div class="input-group mb-2">-->
+<!--                    <input type="text" class="form-control" placeholder="Full Name" name="name" id="name" aria-required="true" autocapitalize="off" autocorrect="off" autocomplete="off" required>-->
+<!--                  </div>-->
+<!--                  &lt;!&ndash; <small id="passwordHelpInline" class="text-muted" style="float: left;">-->
+<!--                    Must be 8-20 characters long.-->
+<!--                  </small> &ndash;&gt;-->
+
+<!--                </div>-->
+<!--                <div class="col-auto" style="margin-top: 10px;">-->
+<!--                  <div class="input-group mb-2">-->
+<!--                    <input type="text" class="form-control" placeholder="Username" name="uname" id="n-uname" aria-required="true" autocapitalize="off" autocorrect="off" required>-->
+<!--                  </div>-->
+<!--                  &lt;!&ndash; <small id="passwordHelpInline" class="text-muted" style="float: left;">-->
+<!--                    Must be 8-20 characters long.-->
+<!--                  </small> &ndash;&gt;-->
+<!--                </div>-->
+<!--                <div class="col-auto" style="margin-top: 10px;">-->
+<!--                    <div class="input-group mb-2">-->
+<!--                      <input type="password" class="form-control" placeholder="Password" name="password" id="n-pass" aria-required="true" autocapitalize="off" autocorrect="off" autocomplete="off" required>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; <small id="passwordHelpInline" class="text-muted" style="float: left;">-->
+<!--                      Must be 8-20 characters long.-->
+<!--                    </small> &ndash;&gt;-->
+
+<!--                </div>-->
+<!--                <div>-->
+<!--                  <div class="custom-control custom-checkbox mr-sm-2 mt-3">-->
+<!--                    <input type="checkbox" class="custom-control-input" id="customControlAutosizings" onclick="SHOW_HIDE_Password();">-->
+<!--                    <label class="custom-control-label show-hide-pass" for="customControlAutosizings" id="lbl">Show Password</label>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="form-group mt-3">-->
+<!--                  <div class="col-sm-10"><button type="button" class="btn btn-outline-primary login" id="signup" onclick="validate()" disabled>Sign up</button></div>-->
+<!--                </div>-->
+<!--                <div><a href="/forgot-pass" class="f-p">&nbsp;&nbsp;Forgot password ?</a> </div>-->
+<!--                <div class="mt-3 mb-4">Have an account? <a class="s-ui" id="ch-auth-li">Log in</a></div>-->
+<!--              </div>-->
+<!--            </form>-->
+<!--            </center>-->
+<!--          </div>-->
+        </div>
+      </center>
+    </div>
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="static/Js/bootstrap-js/bootstrap.js"></script>
+<script src="static/Js/bootstrap-js/bootstrap.min.js"></script>
+<script src="static/Js/bootstrap-js/bootstrap.bundle.js"></script>
+<script src="static/Js/bootstrap-js/bootstrap.bundle.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="static/Js/index.js"></script>
+</html>

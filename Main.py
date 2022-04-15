@@ -8,7 +8,8 @@
 import datetime
 import hashlib
 import json
-from flask import Flask, jsonify, request, render_template, redirect, url_for
+from flask import Flask, jsonify, request, render_template, redirect, url_for,  session
+from flask_session import Session
 from werkzeug.utils import secure_filename
 import os
 
@@ -94,7 +95,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = '.\static\\uploads'
 UPLOAD_FOLDER = app.config['UPLOAD_FOLDER']
 # app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
-# app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+app.config['ALLOWED_EXTENSIONS'] = set(['pdf', 'png', 'jpg', 'jpeg'])
 
 
 
@@ -102,6 +103,9 @@ UPLOAD_FOLDER = app.config['UPLOAD_FOLDER']
 # Creating a Blockchain
 blockchain = Blockchain()
 
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    return render_template('login.html')
 
 # Mining a new block
 @app.route('/mine_block', methods=['GET'])
@@ -156,6 +160,14 @@ def upload_file():
     else:
         return render_template('upload.html')
 
+def authority_check(authority):
+    if authority == 'admin':
+        return True
+    else:
+        return False
+
+# def proof_of_authority_of_miner()
+
 
 # @app.route('/uploader')
 # def save_file():
@@ -163,3 +175,4 @@ def upload_file():
 
 # Running the app
 app.run(host='0.0.0.0', debug=True)
+
