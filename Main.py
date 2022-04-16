@@ -8,11 +8,18 @@
 import datetime
 import hashlib
 import json
-from flask import Flask, jsonify, request, render_template, redirect, url_for,  session
+from flask import Flask, jsonify, request, render_template, redirect, url_for, session
 from flask_session import Session
 from werkzeug.utils import secure_filename
+from flask_login import LoginManager
+from flask_login import UserMixin
+from flask_login import login_required
+from flask_login import login_user
+from flask_login import logout_user
 import os
-
+from datetime import date
+import datetime as datetime_
+date_time = datetime_.datetime
 
 # Part 1 - Building a Blockchain
 
@@ -22,6 +29,7 @@ class Blockchain:
     def __init__(self):
         self.chain = []
         self.create_block(proof=1, previous_hash='0')
+
 
     def create_block(self, proof, previous_hash, FileHash=None):
         block = {
@@ -103,9 +111,25 @@ app.config['ALLOWED_EXTENSIONS'] = set(['pdf', 'png', 'jpg', 'jpeg'])
 # Creating a Blockchain
 blockchain = Blockchain()
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     return render_template('login.html')
+
+@login_required
+@app.route('/', methods=['GET', 'POST'])
+def Dashboard():
+    date_time.now().strftime("%I %b %Y")
+    date1 = date(2022, 4, 15)
+    date2 = date(2022, 4, 16)
+    last_visit = (date2-date1).days
+    if last_visit == 0:
+        last_visit = "Last Visited Today"
+    elif last_visit == 1:
+        last_visit = "Last Visited Yesterday"
+    else:
+        last_visit = "Last Visited " + str(last_visit) + " days ago"
+    print(last_visit)
+    return render_template('Dashboard.html', name="Amanjot Singh", last_visited=last_visit, hash=blockchain.hash(blockchain.chain[-1]))
 
 # Mining a new block
 @app.route('/mine_block', methods=['GET'])

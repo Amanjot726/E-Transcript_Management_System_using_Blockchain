@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie|Lato|Pacifico|Raleway|Merriweather|Passion+One:wght@400;700;900|Roboto+Slab:wght@300;400&display=swap">
     <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap.css">
     <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap.min.css">
@@ -11,6 +12,111 @@
     <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-grid.min.css">
     <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-reboot.css">
     <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-reboot.min.css">
-    <link rel="stylesheet" type="text/css" href="static\css\style.css">
-    <title>Transcript Management</title>
+    <link rel="stylesheet" type="text/css" href="static\css\Main.css">
+    <title>Dashboard: E-Transcript Management</title>
 </head>
+
+<body>
+    <body oncontextmenu="()=>{return false;}">
+        <div class="left-sidebar">
+            <div class="branding">
+                <div class="logo">
+                    <a href="/">
+                        <img src="static\images\logo.png" alt="logo">
+                    </a>
+                </div>
+                <div class="branding-name">
+                    <div class="line-1">E-Transcript</div>
+                    <div class="line-2">Management</div>
+                </div>
+            </div>
+            <div class="options">
+                <div class="option active">
+                        <i class="fa-solid fa-table-cells-large icon"></i>
+                        <span class="option-name">Dashboard</span>
+                        <div class="indicator"></div>
+                </div>
+                <div class="option">
+                    <i class="fa fa-user icon"></i>
+                    <span class="option-name">Profile</span>
+                    <div class="indicator"></div>
+                </div>
+                <div class="option">
+                    <i class="fa fa-gear icon"></i>
+                    <span class="option-name">Settings</span>
+                    <div class="indicator"></div>
+                </div>
+                <div class="option">
+                    <i class="fa-solid fa-headset icon"></i>
+                    <span class="option-name">Help</span>
+                    <div class="indicator"></div>
+                </div>
+            </div>
+            <div class="get-app-section">
+                <div class="app-card">
+                    <div class="get-app-text">
+                        <span>Get the app</span>
+                    </div>
+                    <div class="get-app-icons">
+                        <div class="get-app-icon">
+                            <i class="fa-brands fa-apple"></i>
+                        </div>
+                        <div class="get-app-icon">
+                            <i class="fa-brands fa-android"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="main-sc">
+            <div class="header">
+                <div class="header-left-text">
+                    <span>Dashboard</span>
+                </div>
+                <div class="header-right-text">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <div id="date"></div>
+                </div>
+            </div>
+            <div class="welcome-card">
+                <div class="content">
+                    <div class="welcome-text">Welcome, {{name}}!</div>
+                    <div class="welcome-subtext">
+                        <span class="line">Hope you're doing well...</span>
+                        <span class="last-visit">{{last_visited}}</span>
+                    </div>
+                </div>
+                <div class="illustration">
+                    <img class="img-1" src="static\images\graduation.svg" alt="illustration">
+                    <img class="img-2" src="static\images\hiring.svg" alt="illustration">
+                    <!-- <img class="img-3" src="static\images\celebration.svg" alt="illustration"> -->
+                </div>
+            </div>
+            <div class="hash-block">
+                <div class="field">
+                    <div class="label">Hash</div>
+                    <div class="hash-field"><input class="hash-text" value="{{hash}}" readonly></div>
+                    <div class="copy-button bubbly-button">
+                        <div class="my-tooltip">
+                            <span class="my-tooltiptext">Copy to clipboard</span>
+                        </div>
+                        copy
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- <div class="right-sidebar"></div> -->
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="static/Js/bootstrap-js/bootstrap.js"></script>
+<script src="static/Js/bootstrap-js/bootstrap.min.js"></script>
+<script src="static/Js/bootstrap-js/bootstrap.bundle.js"></script>
+<script src="static/Js/bootstrap-js/bootstrap.bundle.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="static/Js/common.js"></script>
+<script type="text/javascript" src="static/Js/Dashboard.js"></script>
+</html>
