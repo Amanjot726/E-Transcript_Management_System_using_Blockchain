@@ -20,12 +20,205 @@ body {
   user-select: none;
 }
 
+img {
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+}
+
 /* p span::-moz-selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(28, 88, 0);}
 p span::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
 p::-moz-selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(28, 88, 0);}
 p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
 ::-moz-selection{background-color: rgba(161, 238, 110, 0.842);}
 ::selection{background-color: rgba(161, 238, 110, 0.842);} */
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #a5a4a4;
+  border-radius: 100px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #707070;
+}
+
+.bubbly-button {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  display: inline-block;
+  font-size: 1em;
+  padding: 1em 2em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+  background-color: #048d58;
+  color: #fff;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  -webkit-transition: -webkit-transform ease-in 0.1s, -webkit-box-shadow ease-in 0.25s;
+  transition: -webkit-transform ease-in 0.1s, -webkit-box-shadow ease-in 0.25s;
+  transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
+  transition: transform ease-in 0.1s, box-shadow ease-in 0.25s, -webkit-transform ease-in 0.1s, -webkit-box-shadow ease-in 0.25s;
+}
+
+.bubbly-button:focus {
+  outline: 0;
+}
+
+.bubbly-button:before, .bubbly-button:after {
+  position: absolute;
+  content: '';
+  display: block;
+  width: 140%;
+  height: 100%;
+  left: -20%;
+  z-index: -1000;
+  -webkit-transition: all ease-in-out 0.5s;
+  transition: all ease-in-out 0.5s;
+  background-repeat: no-repeat;
+}
+
+.bubbly-button:before {
+  display: none;
+  top: -75%;
+  background-image: radial-gradient(circle, #048d58 20%, transparent 20%), radial-gradient(circle, transparent 25%, #048d58 30%, transparent 30%), radial-gradient(circle, #048d58 25%, transparent 25%), radial-gradient(circle, #048d58 20%, transparent 20%), radial-gradient(circle, transparent 20%, #048d58 25%, transparent 25%), radial-gradient(circle, #048d58 20%, transparent 20%), radial-gradient(circle, #048d58 20%, transparent 20%), radial-gradient(circle, #048d58 27%, transparent 27%), radial-gradient(circle, #048d58 27%, transparent 27%);
+  background-size: 15% 15%, 25% 25%, 20% 20%, 25% 25%, 23% 23%, 15% 15%, 20% 15%, 15% 15%, 23% 23%;
+}
+
+.bubbly-button:after {
+  display: none;
+  bottom: -75%;
+  background-image: radial-gradient(circle, #048d58 30%, transparent 30%), radial-gradient(circle, #048d58 25%, transparent 25%), radial-gradient(circle, transparent 15%, #048d58 15%, transparent 20%), radial-gradient(circle, #048d58 25%, transparent 25%), radial-gradient(circle, #048d58 30%, transparent 30%), radial-gradient(circle, #048d58 30%, transparent 30%), radial-gradient(circle, #048d58 25%, transparent 25%);
+  background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 10% 10%, 20% 20%;
+}
+
+.bubbly-button:active {
+  -webkit-transform: scale(0.9);
+          transform: scale(0.9);
+  background-color: #037449;
+  -webkit-box-shadow: 0 2px 25px rgba(0, 255, 149, 0.2);
+          box-shadow: 0 2px 25px rgba(0, 255, 149, 0.2);
+}
+
+.bubbly-button.animate:before {
+  display: block;
+  -webkit-animation: topBubbles ease-in-out 0.75s forwards;
+          animation: topBubbles ease-in-out 0.75s forwards;
+}
+
+.bubbly-button.animate:after {
+  display: block;
+  -webkit-animation: bottomBubbles ease-in-out 0.75s forwards;
+          animation: bottomBubbles ease-in-out 0.75s forwards;
+}
+
+@-webkit-keyframes topBubbles {
+  0% {
+    background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%;
+  }
+  50% {
+    background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 90% 30%;
+  }
+  100% {
+    background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%, 50% 40%, 65% 10%, 90% 20%;
+    background-size: 0% 0%, 0% 0%,  0% 0%,  0% 0%,  0% 0%,  0% 0%;
+  }
+}
+
+@keyframes topBubbles {
+  0% {
+    background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%;
+  }
+  50% {
+    background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 90% 30%;
+  }
+  100% {
+    background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%, 50% 40%, 65% 10%, 90% 20%;
+    background-size: 0% 0%, 0% 0%,  0% 0%,  0% 0%,  0% 0%,  0% 0%;
+  }
+}
+
+@-webkit-keyframes bottomBubbles {
+  0% {
+    background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0%;
+  }
+  50% {
+    background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0%;
+  }
+  100% {
+    background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
+    background-size: 0% 0%, 0% 0%,  0% 0%,  0% 0%,  0% 0%,  0% 0%;
+  }
+}
+
+@keyframes bottomBubbles {
+  0% {
+    background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0%;
+  }
+  50% {
+    background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0%;
+  }
+  100% {
+    background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
+    background-size: 0% 0%, 0% 0%,  0% 0%,  0% 0%,  0% 0%,  0% 0%;
+  }
+}
+
+.my-tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.my-tooltip .my-tooltiptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 12.5px;
+  padding: 8px 6px;
+  position: absolute;
+  font-family: Lato;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  -webkit-transform: translate(-38%, -76%);
+          transform: translate(-38%, -76%);
+  opacity: 0;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+  white-space: nowrap;
+}
+
+.copy-button:hover .my-tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.my-tooltip .my-tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
 .left-sidebar {
   border-right: 1px solid #e6e6e6;
   width: 300px;
@@ -215,8 +408,8 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
 
 .main-sc {
   width: calc(100% - 300px);
-  height: 100%;
-  position: fixed;
+  height: auto;
+  position: absolute;
   top: 0;
   left: 300px;
   z-index: 1;
@@ -500,170 +693,134 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
   background-color: #d9d9db;
 }
 
-.bubbly-button {
-  font-family: 'Helvetica', 'Arial', sans-serif;
-  display: inline-block;
-  font-size: 1em;
-  padding: 1em 2em;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-       appearance: none;
-  background-color: #048d58;
-  color: #fff;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  -webkit-transition: -webkit-transform ease-in 0.1s, -webkit-box-shadow ease-in 0.25s;
-  transition: -webkit-transform ease-in 0.1s, -webkit-box-shadow ease-in 0.25s;
-  transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
-  transition: transform ease-in 0.1s, box-shadow ease-in 0.25s, -webkit-transform ease-in 0.1s, -webkit-box-shadow ease-in 0.25s;
+.main-sc .files-block {
+  width: 100%;
+  padding: 25px 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background-color: #e6f3ec;
+  margin-top: 30px;
+  border-radius: 10px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.bubbly-button:focus {
-  outline: 0;
+.main-sc .files-block .files-header {
+  width: 100%;
+  margin-bottom: 15px;
 }
 
-.bubbly-button:before, .bubbly-button:after {
-  position: absolute;
-  content: '';
-  display: block;
-  width: 140%;
-  height: 100%;
-  left: -20%;
-  z-index: -1000;
-  -webkit-transition: all ease-in-out 0.5s;
-  transition: all ease-in-out 0.5s;
-  background-repeat: no-repeat;
-}
-
-.bubbly-button:before {
-  display: none;
-  top: -75%;
-  background-image: radial-gradient(circle, #048d58 20%, transparent 20%), radial-gradient(circle, transparent 25%, #048d58 30%, transparent 30%), radial-gradient(circle, #048d58 25%, transparent 25%), radial-gradient(circle, #048d58 20%, transparent 20%), radial-gradient(circle, transparent 20%, #048d58 25%, transparent 25%), radial-gradient(circle, #048d58 20%, transparent 20%), radial-gradient(circle, #048d58 20%, transparent 20%), radial-gradient(circle, #048d58 27%, transparent 27%), radial-gradient(circle, #048d58 27%, transparent 27%);
-  background-size: 15% 15%, 25% 25%, 20% 20%, 25% 25%, 23% 23%, 15% 15%, 20% 15%, 15% 15%, 23% 23%;
-}
-
-.bubbly-button:after {
-  display: none;
-  bottom: -75%;
-  background-image: radial-gradient(circle, #048d58 30%, transparent 30%), radial-gradient(circle, #048d58 25%, transparent 25%), radial-gradient(circle, transparent 15%, #048d58 15%, transparent 20%), radial-gradient(circle, #048d58 25%, transparent 25%), radial-gradient(circle, #048d58 30%, transparent 30%), radial-gradient(circle, #048d58 30%, transparent 30%), radial-gradient(circle, #048d58 25%, transparent 25%);
-  background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 10% 10%, 20% 20%;
-}
-
-.bubbly-button:active {
-  -webkit-transform: scale(0.9);
-          transform: scale(0.9);
-  background-color: #037449;
-  -webkit-box-shadow: 0 2px 25px rgba(0, 255, 149, 0.2);
-          box-shadow: 0 2px 25px rgba(0, 255, 149, 0.2);
-}
-
-.bubbly-button.animate:before {
-  display: block;
-  -webkit-animation: topBubbles ease-in-out 0.75s forwards;
-          animation: topBubbles ease-in-out 0.75s forwards;
-}
-
-.bubbly-button.animate:after {
-  display: block;
-  -webkit-animation: bottomBubbles ease-in-out 0.75s forwards;
-          animation: bottomBubbles ease-in-out 0.75s forwards;
-}
-
-@-webkit-keyframes topBubbles {
-  0% {
-    background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%;
-  }
-  50% {
-    background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 90% 30%;
-  }
-  100% {
-    background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%, 50% 40%, 65% 10%, 90% 20%;
-    background-size: 0% 0%, 0% 0%,  0% 0%,  0% 0%,  0% 0%,  0% 0%;
-  }
-}
-
-@keyframes topBubbles {
-  0% {
-    background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%;
-  }
-  50% {
-    background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 90% 30%;
-  }
-  100% {
-    background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%, 50% 40%, 65% 10%, 90% 20%;
-    background-size: 0% 0%, 0% 0%,  0% 0%,  0% 0%,  0% 0%,  0% 0%;
-  }
-}
-
-@-webkit-keyframes bottomBubbles {
-  0% {
-    background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0%;
-  }
-  50% {
-    background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0%;
-  }
-  100% {
-    background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
-    background-size: 0% 0%, 0% 0%,  0% 0%,  0% 0%,  0% 0%,  0% 0%;
-  }
-}
-
-@keyframes bottomBubbles {
-  0% {
-    background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0%;
-  }
-  50% {
-    background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0%;
-  }
-  100% {
-    background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
-    background-size: 0% 0%, 0% 0%,  0% 0%,  0% 0%,  0% 0%,  0% 0%;
-  }
-}
-
-.my-tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
-}
-
-.my-tooltip .my-tooltiptext {
-  visibility: hidden;
-  width: 160px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  font-size: 12.5px;
-  padding: 8px 6px;
-  position: absolute;
+.main-sc .files-block .files-header .heading {
+  font-size: 16.5px;
   font-family: Lato;
-  z-index: 1;
-  bottom: 150%;
-  left: 50%;
-  -webkit-transform: translate(-38%, -75%);
-          transform: translate(-38%, -75%);
-  opacity: 0;
-  -webkit-transition: opacity 0.3s;
-  transition: opacity 0.3s;
+  font-weight: bold;
+  letter-spacing: 0.7px;
+}
+
+.main-sc .files-block .files-header .count {
+  font-size: 13.5px;
+  font-weight: bold;
+  color: #3d3d3d;
+  padding: 0.3px 6px 1.3px 6px;
+  border-radius: 50px;
+  background-color: #d9d9db;
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
+}
+
+.main-sc .files-block .files {
+  height: 100%;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.main-sc .files-block .files .file_card {
+  width: 240px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 10px;
+  border: 1px solid #aeaeb367;
+  margin: 8px;
+}
+
+.main-sc .files-block .files .file_card .icon img {
+  height: 80px;
+  width: 80px;
+  padding: 10px;
+}
+
+.main-sc .files-block .files .file_card .vertical-divider {
+  width: 1px;
+  height: 100%;
+  background-color: #aeaeb367;
+}
+
+.main-sc .files-block .files .file_card .right-side {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.main-sc .files-block .files .file_card .right-side .file_name {
+  width: 100%;
+  font-size: 13px;
+  font-family: Merriweather;
+  font-weight: bold;
+  letter-spacing: 0.7px;
+  color: #3d3d3d;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.copy-button:hover .my-tooltiptext {
-  visibility: visible;
-  opacity: 1;
+.main-sc .files-block .files .file_card .options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
 }
 
-.my-tooltip .my-tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
+.main-sc .files-block .files .file_card .options .option {
+  padding: 4px;
+}
+
+.main-sc .files-block .files .file_card .options .option .fa {
+  font-size: 14px;
+  color: #5f5f5f;
+}
+
+.main-sc .files-block .files .file_card .options .option .fa:hover {
+  cursor: pointer;
+  color: #3d3d3d;
 }
 /*# sourceMappingURL=Main.css.map */
