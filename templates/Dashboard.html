@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie|Lato|Pacifico|Raleway|Merriweather|Passion+One:wght@400;700;900|Roboto+Slab:wght@300;400&display=swap">
@@ -12,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-grid.min.css">
     <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-reboot.css">
     <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-reboot.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
     <link rel="stylesheet" type="text/css" href="static\css\Main.css">
     <title>Dashboard: E-Transcript Management</title>
 </head>
@@ -54,17 +56,13 @@
             </div>
             <div class="get-app-section">
                 <div class="app-card">
+                    <div class="logo">
+                        <img src="static\images\app.svg" alt="app-logo">
+                    </div>
                     <div class="get-app-text">
-                        <span>Get the app</span>
+                        <span>Download Our New App!</span>
                     </div>
-                    <div class="get-app-icons">
-                        <div class="get-app-icon">
-                            <i class="fa-brands fa-apple"></i>
-                        </div>
-                        <div class="get-app-icon">
-                            <i class="fa-brands fa-android"></i>
-                        </div>
-                    </div>
+                    <div class="download-button">Download</div>
                 </div>
             </div>
         </div>
@@ -102,9 +100,7 @@
                 <div class="field">
                     <div class="label">Hash</div>
                     <div class="hash-field"><input class="hash-text" value="{{hash}}" readonly></div>
-                    <div class="copy-button bubbly-button">copy
-                        <div class="my-tooltip"><span class="my-tooltiptext">Copy to clipboard</span></div>
-                    </div>
+                    <div class="copy-button bubbly-button" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">copy</div>
                 </div>
             </div>
 
@@ -116,7 +112,7 @@
                     <span class="count">6</span>
                 </div>
                 <div class="files">
-                    <div class="file_card">
+                    <div class="file_card my-tooltip">
                         <div class="icon">
                             <img src="static/images/pdf.png" alt="File Icon">
                         </div>
@@ -127,10 +123,10 @@
                             </div>
                             <div class="options">
                                 <div class="option">
-                                    <i class="fa fa-eye"></i>
+                                    <i class="fa fa-regular fa-eye" data-toggle="tooltip" data-placement="bottom" title="Preview"></i>
                                 </div>
                                 <div class="option">
-                                    <i class="fa fa-download"></i>
+                                    <i class="fa fa-download" data-toggle="tooltip" data-placement="bottom" title="Download"></i>
                                 </div>
                             </div>
                         </div>
@@ -146,10 +142,10 @@
                             </div>
                             <div class="options">
                                 <div class="option">
-                                    <i class="fa fa-eye"></i>
+                                    <i class="fa fa-regular fa-eye" data-toggle="tooltip" data-placement="bottom" title="Preview"></i>
                                 </div>
                                 <div class="option">
-                                    <i class="fa fa-download"></i>
+                                    <i class="fa fa-download" data-toggle="tooltip" data-placement="bottom" title="Download"></i>
                                 </div>
                             </div>
                         </div>
@@ -165,10 +161,10 @@
                             </div>
                             <div class="options">
                                 <div class="option">
-                                    <i class="fa fa-eye"></i>
+                                    <i class="fa fa-regular fa-eye" data-toggle="tooltip" data-placement="bottom" title="Preview"></i>
                                 </div>
                                 <div class="option">
-                                    <i class="fa fa-download"></i>
+                                    <i class="fa fa-download" data-toggle="tooltip" data-placement="bottom" title="Download"></i>
                                 </div>
                             </div>
                         </div>
@@ -184,29 +180,10 @@
                             </div>
                             <div class="options">
                                 <div class="option">
-                                    <i class="fa fa-eye"></i>
+                                    <i class="fa fa-regular fa-eye" data-toggle="tooltip" data-placement="bottom" title="Preview"></i>
                                 </div>
                                 <div class="option">
-                                    <i class="fa fa-download"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="file_card">
-                        <div class="left-side icon">
-                            <img src="static/images/pdf.png" alt="File Icon">
-                        </div>
-                        <div class="vertical-divider"></div>
-                        <div class="right-side">
-                            <div class="file_name">
-                                <span>M.Tech Certificate</span>
-                            </div>
-                            <div class="options">
-                                <div class="option">
-                                    <i class="fa fa-eye"></i>
-                                </div>
-                                <div class="option">
-                                    <i class="fa fa-download"></i>
+                                    <i class="fa fa-download" data-toggle="tooltip" data-placement="bottom" title="Download"></i>
                                 </div>
                             </div>
                         </div>
@@ -222,29 +199,60 @@
                             </div>
                             <div class="options">
                                 <div class="option">
-                                    <i class="fa fa-eye"></i>
+                                    <i class="fa fa-regular fa-eye" data-toggle="tooltip" data-placement="bottom" title="Preview"></i>
                                 </div>
                                 <div class="option">
-                                    <i class="fa fa-download"></i>
+                                    <i class="fa fa-download" data-toggle="tooltip" data-placement="bottom" title="Download"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="file_card">
+                        <div class="left-side icon">
+                            <img src="static/images/pdf.png" alt="File Icon">
+                        </div>
+                        <div class="vertical-divider"></div>
+                        <div class="right-side">
+                            <div class="file_name">
+                                <span>M.Tech Certificate</span>
+                            </div>
+                            <div class="options">
+                                <div class="option">
+                                    <i class="fa fa-regular fa-eye" data-toggle="tooltip" data-placement="bottom" title="Preview"></i>
+                                </div>
+                                <div class="option">
+                                    <i class="fa fa-download" data-toggle="tooltip" data-placement="bottom" title="Download"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+                Tooltip on top
+              </button> -->
         </div>
 
         
 
 
         <!-- <div class="right-sidebar"></div> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <script src="static/Js/bootstrap-js/bootstrap.bundle.js"></script>
+    <script src="static/Js/bootstrap-js/bootstrap.bundle.min.js"></script> -->
+    <script src="static/Js/bootstrap-js/bootstrap.js"></script>
+    <script src="static/Js/bootstrap-js/bootstrap.min.js"></script>
+    <script src="static/Js/bootstrap-js/maxcdn-bootstrap.min.js"></script>
+    <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+    <script type="text/javascript" src="static/Js/common.js"></script>
+    <script type="text/javascript" src="static/Js/Dashboard.js"></script>
+    <!-- <script>
+        $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script> -->
+
 </body>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-<script src="static/Js/bootstrap-js/bootstrap.js"></script>
-<script src="static/Js/bootstrap-js/bootstrap.min.js"></script>
-<script src="static/Js/bootstrap-js/bootstrap.bundle.js"></script>
-<script src="static/Js/bootstrap-js/bootstrap.bundle.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="static/Js/common.js"></script>
-<script type="text/javascript" src="static/Js/Dashboard.js"></script>
+
 </html>

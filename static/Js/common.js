@@ -1,7 +1,8 @@
 $(document).ready(function (e) {
   $(document).bind('contextmenu', function (e) {
     return false
-  })
+  });
+  $('[data-toggle="tooltip"]').tooltip();
 })
 // document.onkeydown = function (e) {
 //   if (

@@ -1,4 +1,4 @@
-document.querySelectorAll('.option').forEach(element => {
+document.querySelectorAll('.left-sidebar > .options > .option').forEach(element => {
     element.addEventListener('click', function () {
       element.classList.add('active');
       document.querySelectorAll('.option').forEach(element => {
@@ -45,9 +45,15 @@ copy_btn.addEventListener('click', function() {
     var copyText = document.querySelector(".hash-text");
     copyText.select();
     copyText.setSelectionRange(0, 99999);
+    var value_Attr = document.querySelector('.hash-text').getAttribute('value');
+    if (copyText.value != value_Attr){
+        copyText.value = value_Attr;
+        copyText.setAttribute('readonly', '');
+    }
     navigator.clipboard.writeText(copyText.value)
-    var tooltip = document.querySelector(".my-tooltiptext");
-    tooltip.innerHTML = "Copied!";
+    // var tooltip = document.querySelector(".my-tooltiptext");
+    document.querySelector('.copy-button').setAttribute('data-original-title','Copied!');
+    document.querySelector(".tooltip-inner").innerHTML = "Copied!";
     setTimeout(function(){
         copyText.focus();
         copyText.selectionEnd = copyText.selectionStart;
@@ -55,8 +61,10 @@ copy_btn.addEventListener('click', function() {
 });
   
 copy_btn.addEventListener('mouseout', function() {
-    var tooltip = document.querySelector(".my-tooltiptext");
-    tooltip.innerHTML = "Copy to clipboard";
+    setTimeout(function(){
+        copy_btn.setAttribute('data-original-title','Copy to clipboard')
+        document.querySelector(".tooltip-inner").innerHTML = "Copy to clipboard";
+    },400);
 });
 
 // function myFunctionORIGINAL() {
