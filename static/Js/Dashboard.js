@@ -62,8 +62,9 @@ copy_btn.addEventListener('click', function() {
   
 copy_btn.addEventListener('mouseout', function() {
     setTimeout(function(){
-        copy_btn.setAttribute('data-original-title','Copy to clipboard')
-        document.querySelector(".tooltip-inner").innerHTML = "Copy to clipboard";
+        copy_btn.setAttribute('data-original-title','Copy to clipboard');
+        try{document.querySelector(".tooltip-inner").innerHTML = "Copy to clipboard";}
+        catch(e){}
     },400);
 });
 

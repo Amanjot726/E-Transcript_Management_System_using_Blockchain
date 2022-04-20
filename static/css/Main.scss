@@ -468,6 +468,7 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
         padding-top: 30px;
         align-items: center;
         text-align: center;
+        margin-top: 36px;
         // margin-bottom: 20px;
 
         & .app-card{
@@ -476,12 +477,12 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
             // background-color: #e5edf4;
             // background-color: rgba(233, 241, 239, 0.959);
             background-color: rgba(233, 241, 239, 0.959);
-            padding: 20px;
+            padding: 17px 20px;
             border-radius: 10px;
 
             & .logo{
                 width: 100%;
-                height: 25px;
+                height: 15px;
                 position: relative; 
                 display: flex;
                 justify-content: center;
@@ -491,9 +492,47 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
                 & img{
                     position: absolute;
                     // top: -150%;
-                    bottom: 5px;
+                    bottom: -10px;
                     // width: 160px;
                     height: 120px;
+                }
+            }
+
+            & .get-app-text{
+                font-size: 12.5px;
+                font-weight: bold;
+                font-family: Merriweather;
+                text-transform: uppercase;
+                letter-spacing: 0.8px;
+                color: $theme-color;
+                color: rgb(58, 156, 97);
+                margin-bottom: 12px;
+            }
+
+            & .download-button{
+                width: 100%;
+                // height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 10px;
+                // background-color: #5bca8ff3;
+                background-color: #8ad5ac;
+                border-radius: 10px;
+                color: rgb(38, 126, 73);
+                font-size: 13px;
+                padding: 10px;
+                font-weight: bold;
+                font-family: Lato;
+                letter-spacing: 0.8px;
+                transition: all 0.15s ease-in-out;
+                text-transform: uppercase;
+                cursor: pointer;
+
+                &:hover{
+                    color: rgb(28, 117, 64);
+                    // background-color: #51c486;
+                    background-color: #77cc9d;
                 }
             }
         }
@@ -790,7 +829,8 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
                 display: flex;
                 align-items: center;
                 border-radius: 10px;
-                border: 0.11rem solid #aeaeb367;
+                // border: 0.11rem solid #aeaeb367;
+                border: 0.11rem solid #c4d5ca;
                 margin: 8px;
 
                 & .icon {
@@ -830,7 +870,8 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
                         font-family: Merriweather;
                         font-weight: bold;
                         letter-spacing: 0.7px;
-                        color: #3d3d3d;
+                        // color: #3d3d3d;
+                        color: rgb(17, 102, 51) ;
                         white-space: nowrap;
                         overflow: hidden;
                         text-overflow: ellipsis;
@@ -853,12 +894,12 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
 
                         & .fa {
                             font-size: 16px;
-                            color: #5f5f5f;
+                            color: rgb(47, 143, 85) ;
                         }
 
                         &:hover > .fa {
                             cursor: pointer;
-                            color: #3d3d3d;
+                            color: rgb(25, 114, 61) ;
                         }
                     }
                 }

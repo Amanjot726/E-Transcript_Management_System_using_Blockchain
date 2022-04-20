@@ -508,18 +508,19 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
       -ms-flex-align: center;
           align-items: center;
   text-align: center;
+  margin-top: 36px;
 }
 
 .left-sidebar .get-app-section .app-card {
   width: 100%;
   background-color: rgba(233, 241, 239, 0.959);
-  padding: 20px;
+  padding: 17px 20px;
   border-radius: 10px;
 }
 
 .left-sidebar .get-app-section .app-card .logo {
   width: 100%;
-  height: 25px;
+  height: 15px;
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -535,8 +536,50 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
 
 .left-sidebar .get-app-section .app-card .logo img {
   position: absolute;
-  bottom: 5px;
+  bottom: -10px;
   height: 120px;
+}
+
+.left-sidebar .get-app-section .app-card .get-app-text {
+  font-size: 12.5px;
+  font-weight: bold;
+  font-family: Merriweather;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #048d58;
+  color: #3a9c61;
+  margin-bottom: 12px;
+}
+
+.left-sidebar .get-app-section .app-card .download-button {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 10px;
+  background-color: #8ad5ac;
+  border-radius: 10px;
+  color: #267e49;
+  font-size: 13px;
+  padding: 10px;
+  font-weight: bold;
+  font-family: Lato;
+  letter-spacing: 0.8px;
+  -webkit-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.left-sidebar .get-app-section .app-card .download-button:hover {
+  color: #1c7540;
+  background-color: #77cc9d;
 }
 
 .main-sc {
@@ -889,7 +932,7 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
       -ms-flex-align: center;
           align-items: center;
   border-radius: 10px;
-  border: 0.11rem solid #aeaeb367;
+  border: 0.11rem solid #c4d5ca;
   margin: 8px;
 }
 
@@ -937,7 +980,7 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
   font-family: Merriweather;
   font-weight: bold;
   letter-spacing: 0.7px;
-  color: #3d3d3d;
+  color: #116633;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -959,12 +1002,12 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
 
 .main-sc .files-block .files .file_card .options .option .fa {
   font-size: 16px;
-  color: #5f5f5f;
+  color: #2f8f55;
 }
 
 .main-sc .files-block .files .file_card .options .option:hover > .fa {
   cursor: pointer;
-  color: #3d3d3d;
+  color: #19723d;
 }
 
 .copy-button + .tooltip .tooltip-inner {
