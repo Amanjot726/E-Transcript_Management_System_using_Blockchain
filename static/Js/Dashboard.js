@@ -57,13 +57,14 @@ copy_btn.addEventListener('click', function() {
     setTimeout(function(){
         copyText.focus();
         copyText.selectionEnd = copyText.selectionStart;
+        copyText.blur();
     },1000);
 });
   
 copy_btn.addEventListener('mouseout', function() {
     setTimeout(function(){
         copy_btn.setAttribute('data-original-title','Copy to clipboard');
-        try{document.querySelector(".tooltip-inner").innerHTML = "Copy to clipboard";}
+        try{document.querySelector(".tooltip-inner").innerHTML = "Copy to clipboard";copyText.blur();}
         catch(e){}
     },400);
 });
