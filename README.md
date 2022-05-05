@@ -2,5 +2,7 @@
 
 
 - Creating a blockchain 4-04-22
+If facing this error:)
+[https://peter-whyte.com/ps1-cannot-be-loaded-because-running-scripts-is-disabled-on-this-system-powershell/](https://peter-whyte.com/ps1-cannot-be-loaded-because-running-scripts-is-disabled-on-this-system-powershell/)
 - 
 
