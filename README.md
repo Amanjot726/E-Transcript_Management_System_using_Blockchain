@@ -28,5 +28,5 @@ http://localhost:8080/ipfs/QmP7Aq8v9way3Yg5outFhYoNLbH3rztzHsVLFLqM1M2eea
 ```
 
 ## References:
-[https://github.com/ipfs-shipyard/py-ipfs-http-client#usage](https://github.com/ipfs-shipyard/py-ipfs-http-client#usage)
+[https://github.com/ipfs-shipyard/py-ipfs-http-client#usage](https://github.com/ipfs-shipyard/py-ipfs-http-client#usage)  
 [https://medium.com/python-pandemonium/getting-started-with-python-and-ipfs-94d14fdffd10](https://medium.com/python-pandemonium/getting-started-with-python-and-ipfs-94d14fdffd10)
