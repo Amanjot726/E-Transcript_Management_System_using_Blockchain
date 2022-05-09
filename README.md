@@ -22,5 +22,11 @@ res = client.add("D:\epilight_cpp_new.pdf")
 print(res)
 ```
 ![image](https://user-images.githubusercontent.com/53931644/167351221-1eb40173-6ff6-4d95-8d08-a6f25e16abba.png)
-- To access the file 
+- To access the file do
+```
+http://localhost:8080/ipfs/QmP7Aq8v9way3Yg5outFhYoNLbH3rztzHsVLFLqM1M2eea
+```
+
+## References:
+[https://github.com/ipfs-shipyard/py-ipfs-http-client#usage](https://github.com/ipfs-shipyard/py-ipfs-http-client#usage)
 [https://medium.com/python-pandemonium/getting-started-with-python-and-ipfs-94d14fdffd10](https://medium.com/python-pandemonium/getting-started-with-python-and-ipfs-94d14fdffd10)
