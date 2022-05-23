@@ -45,6 +45,11 @@ http://localhost:8080/ipfs/QmP7Aq8v9way3Yg5outFhYoNLbH3rztzHsVLFLqM1M2eea
 
 [https://ipfs.io/ipfs/QmPQx6wpxnNXm6jUMp7UvMskK6W4SXzzpNP9fZ6brxSukn](https://ipfs.io/ipfs/QmPQx6wpxnNXm6jUMp7UvMskK6W4SXzzpNP9fZ6brxSukn)
 
+# Accssing content
+```
+ipfs cat QmPQx6wpxnNXm6jUMp7UvMskK6W4SXzzpNP9fZ6brxSukn
+```
+
 ## References:
 - [Both ipfs and ipfshttpclient should have same version](https://github.com/ipfs-shipyard/py-ipfs-http-client/issues/218)
 - [https://github.com/ipfs-shipyard/py-ipfs-http-client#usage](https://github.com/ipfs-shipyard/py-ipfs-http-client#usage)  
