@@ -8,21 +8,17 @@
 import datetime
 import hashlib
 import json
-
-
 from flask import Flask, jsonify, request, render_template, redirect, url_for, session
 from flask_session import Session
 from werkzeug.utils import secure_filename
-# from flask_login import LoginManager
-# from flask_login import UserMixin
-# from flask_login import login_required
-# from flask_login import login_user
-# from flask_login import logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 import os
 from datetime import date
 import datetime as datetime_
 date_time = datetime_.datetime
 import ipfshttpclient
+from cryptography.fernet import Fernet
+
 
 # Part 1 - Building a Blockchain
 
@@ -96,7 +92,17 @@ class Blockchain:
         file_content = file.read()
         file.close()
         return hashlib.sha256(file_content).hexdigest()
-    def encrypt_file(self):
+
+    #encrypt file using AES
+    def encrypt_file(self, file_name):
+        file = open(file_name, 'rb')
+        file_content = file.read()
+        key = Fernet.generate_key()
+        fernet = Fernet(key)
+        encrypted_file = fernet.encrypt(file_content)
+        with open(file_name, 'wb') as f:
+            f.write(encrypted_file)
+        return encrypted_file,key
 
 
 
@@ -116,25 +122,25 @@ app.config['ALLOWED_EXTENSIONS'] = set(['pdf', 'png', 'jpg', 'jpeg'])
 # Creating a Blockchain
 blockchain = Blockchain()
 
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     return render_template('login.html')
-#
-# @login_required
-# @app.route('/', methods=['GET', 'POST'])
-# def Dashboard():
-#     date_time.now().strftime("%I %b %Y")
-#     date1 = date(2022, 4, 15)
-#     date2 = date(2022, 4, 16)
-#     last_visit = (date2-date1).days
-#     if last_visit == 0:
-#         last_visit = "Last Visited Today"
-#     elif last_visit == 1:
-#         last_visit = "Last Visited Yesterday"
-#     else:
-#         last_visit = "Last Visited " + str(last_visit) + " days ago"
-#     print(last_visit)
-#     return render_template('Dashboard.html', name="Amanjot Singh", last_visited=last_visit, hash=blockchain.hash(blockchain.chain[-1]))
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    return render_template('login.html')
+
+@login_required
+@app.route('/', methods=['GET', 'POST'])
+def Dashboard():
+    date_time.now().strftime("%I %b %Y")
+    date1 = date(2022, 4, 15)
+    date2 = date(2022, 4, 16)
+    last_visit = (date2-date1).days
+    if last_visit == 0:
+        last_visit = "Last Visited Today"
+    elif last_visit == 1:
+        last_visit = "Last Visited Yesterday"
+    else:
+        last_visit = "Last Visited " + str(last_visit) + " days ago"
+    print(last_visit)
+    return render_template('Dashboard.html', name="Amanjot Singh", last_visited=last_visit, hash=blockchain.hash(blockchain.chain[-1]))
 
 # Mining a new block
 @app.route('/mine_block', methods=['GET'])
@@ -181,13 +187,14 @@ def upload_file():
         #save file to uploads folder
         try:
             f.save(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
+            file, key = blockchain.encrypt_file(f.filename)
             res = client.add(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
-            hash = res['Hash']
+            file_hash = res['Hash']
             #get file hash
-            file_hash = blockchain.file_to_sha256(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
+            # file_hash = blockchain.file_to_sha256(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
             print("file hash =", file_hash)
             r = mine_block(file_hash)[0]
-            return render_template('upload.html', upload='success', response=r)
+            return render_template('upload.html', upload='success', response=0)
         except Exception as e:
             print(e)
             return render_template('upload.html', upload='fail')
@@ -214,3 +221,4 @@ def authority_check(authority):
 
 # Running the app
 app.run(host='0.0.0.0', debug=True)
+
