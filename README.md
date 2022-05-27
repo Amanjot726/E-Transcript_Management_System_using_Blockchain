@@ -9,8 +9,6 @@
 #### If facing this error during installation of Command Prompt IPFS:)
 [https://peter-whyte.com/ps1-cannot-be-loaded-because-running-scripts-is-disabled-on-this-system-powershell/](https://peter-whyte.com/ps1-cannot-be-loaded-because-running-scripts-is-disabled-on-this-system-powershell/)
 
-#### To run ipfs using python make sure that IPFS version and ipfshttpclient version is same.
-
 ## Uploading file on IPFS and then accessing it.
 - Initialize ipfs using command
 ```
@@ -19,6 +17,9 @@ ipfs daemon
 ![image](https://user-images.githubusercontent.com/53931644/167350698-3d371dc6-7843-41dd-b9e0-fbe57a1912b5.png)
 
 - Open another powershell window with daemon initialized on first powershell window.
+
+#### To run ipfs using python make sure that IPFS version and ipfshttpclient version is same.
+
 - Run following commands:
 ```
 python
