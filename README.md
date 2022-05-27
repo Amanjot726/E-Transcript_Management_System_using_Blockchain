@@ -4,7 +4,7 @@
 - Creating a blockchain 4-04-22
 
 ## IPFS installation docs
-[https://docs.ipfs.io/install/command-line/#official-distributions])(https://docs.ipfs.io/install/command-line/#official-distributions)
+[https://docs.ipfs.io/install/command-line/#official-distributions](https://docs.ipfs.io/install/command-line/#official-distributions)
 
 #### If facing this error during installation of Command Prompt IPFS:)
 [https://peter-whyte.com/ps1-cannot-be-loaded-because-running-scripts-is-disabled-on-this-system-powershell/](https://peter-whyte.com/ps1-cannot-be-loaded-because-running-scripts-is-disabled-on-this-system-powershell/)
