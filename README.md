@@ -6,11 +6,11 @@
 ## IPFS installation docs
 [https://docs.ipfs.io/install/command-line/#official-distributions])(https://docs.ipfs.io/install/command-line/#official-distributions)
 
-### To run ipfs using python make sure that IPFS version and ipfshttpclient version is same.
-
-- If facing this error during installation of Command Prompt IPFS:)
+#### If facing this error during installation of Command Prompt IPFS:)
 [https://peter-whyte.com/ps1-cannot-be-loaded-because-running-scripts-is-disabled-on-this-system-powershell/](https://peter-whyte.com/ps1-cannot-be-loaded-because-running-scripts-is-disabled-on-this-system-powershell/)
-- 
+
+#### To run ipfs using python make sure that IPFS version and ipfshttpclient version is same.
+
 ## Uploading file on IPFS and then accessing it.
 - Initialize ipfs using command
 ```
