@@ -28,13 +28,9 @@ client = ipfshttpclient.connect("/dns/localhost/tcp/5001/http")
 res = client.add("D:\epilight_cpp_new.pdf")
 print(res)
 ```
-- if    
--` res = client.add("C:\Users\priya\Downloads\adbms.pdf")
-                                                         ^
+- if  `res = client.add("C:\Users\priya\Downloads\adbms.pdf")
 SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes in position 2-3: truncated \UXXXXXXXX escape
-`
-
-then put r before the path and it converts normal string to raw string
+` then put r before the path and it converts normal string to raw string
 `res = client.add(r"C:\Users\priya\Downloads\adbms.pdf")
 `
 ![image](https://user-images.githubusercontent.com/53931644/167351221-1eb40173-6ff6-4d95-8d08-a6f25e16abba.png)
