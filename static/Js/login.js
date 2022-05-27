@@ -33,6 +33,7 @@
     var un = document.getElementById('uname')
     var pass = document.getElementById('pass')
     if (un.value.length > 0 && pass.value.length >= 8) {
+      console.log("validate")
       document.getElementById('login_form').submit()
     }
   }

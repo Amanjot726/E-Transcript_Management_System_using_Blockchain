@@ -18,7 +18,10 @@ import datetime as datetime_
 date_time = datetime_.datetime
 import ipfshttpclient
 from cryptography.fernet import Fernet
+import sqlite3
 
+db = sqlite3.connect("db.sqlite3", check_same_thread=False)
+cursor = db.cursor()
 
 # Part 1 - Building a Blockchain
 
@@ -93,11 +96,12 @@ class Blockchain:
         file.close()
         return hashlib.sha256(file_content).hexdigest()
 
-    #encrypt file using AES
+
     def encrypt_file(self, file_name):
         file = open(file_name, 'rb')
         file_content = file.read()
         key = Fernet.generate_key()
+        print(key,type(key))
         fernet = Fernet(key)
         encrypted_file = fernet.encrypt(file_content)
         with open(file_name, 'wb') as f:
@@ -116,7 +120,8 @@ UPLOAD_FOLDER = app.config['UPLOAD_FOLDER']
 # app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['ALLOWED_EXTENSIONS'] = set(['pdf', 'png', 'jpg', 'jpeg'])
 
-
+global username
+username = "1915086"
 
 
 # Creating a Blockchain
@@ -124,7 +129,31 @@ blockchain = Blockchain()
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    print("hello123")
+    print(request)
+    if request.method == 'POST':
+        print("post")
+        global username
+        username = request.form.get('username', "username")
+        password = request.form.get('password', "password")
+        print(username, password)
+
+        dbpassword = cursor.execute("select password from main where username=?",(username,)).fetchone()
+        # print(dbpassword[0])
+        if password == dbpassword[0]:
+            print("right")
+            return redirect('/')
+        else:
+            return render_template('login.html')
+
     return render_template('login.html')
+
+    # username = request.form.get('username')
+    # password = request.form.get('password')
+    # print(username, password)
+
+
+
 
 @login_required
 @app.route('/', methods=['GET', 'POST'])
@@ -179,25 +208,33 @@ def is_valid():
 
 @app.route('/upload', methods=['GET','POST'])
 def upload_file():
+    file_name = os.path.join(UPLOAD_FOLDER, 'certi.pdf')
+    key = cursor.execute("Select encryKey from main where username=?",(username,)).fetchone()
+    print(key,",",bytes(key[0],'utf-8'))
+    file = open(file_name, 'rb')
+    file_content = file.read()
+    fernet = Fernet(bytes(key[0],'utf-8'))
+    decrypted_file = fernet.decrypt(file_content)
+    with open(file_name, 'wb') as f:
+        f.write(decrypted_file)
     client = ipfshttpclient.connect("/dns/localhost/tcp/5001/http")
     # res = client.add("D:\epilight_cpp_new.pdf")
     # hash = res['Hash']
     if request.method == 'POST':
         f = request.files['file']
         #save file to uploads folder
-        try:
-            f.save(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
-            file, key = blockchain.encrypt_file(f.filename)
-            res = client.add(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
-            file_hash = res['Hash']
-            #get file hash
-            # file_hash = blockchain.file_to_sha256(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
-            print("file hash =", file_hash)
-            r = mine_block(file_hash)[0]
-            return render_template('upload.html', upload='success', response=0)
-        except Exception as e:
-            print(e)
-            return render_template('upload.html', upload='fail')
+        f.save(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
+        file, key = blockchain.encrypt_file(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
+        res = client.add(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
+        file_hash = res['Hash']
+        #get file hash
+        # file_hash = blockchain.file_to_sha256(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
+        print("file hash =", file_hash)
+        r = mine_block(file_hash)[0]
+        return render_template('upload.html', response=0)
+        # except Exception as e:
+        #     print(e)
+        #     return render_template('upload.html', upload='fail')
     else:
         return render_template('upload.html')
 
