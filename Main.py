@@ -150,8 +150,13 @@ def login():
 
     # username = request.form.get('username')
     # password = request.form.get('password')
-    # print(username, password)
+#     # print(username, password)
 
+@app.route('/add_user', methods=['GET', 'POST'])
+def AddUser(name, email, username, password, listOfBlocks):
+    encryKey
+    if request.method == 'POST':
+        cursor.execute("INSERT INTO main(name, email, username, password, encryKey, listOfBlocks) values(name, email, username, password, encryKey, listOfBlocks)")
 
 
 
@@ -168,7 +173,9 @@ def Dashboard():
         last_visit = "Last Visited Yesterday"
     else:
         last_visit = "Last Visited " + str(last_visit) + " days ago"
-    print(last_visit)
+
+    # print(last_visit)
+    # key = cursor.execute("Select hash from main where username=?", (username,)).fetchone()
     return render_template('Dashboard.html', name="Amanjot Singh", last_visited=last_visit, hash=blockchain.hash(blockchain.chain[-1]))
 
 # Mining a new block
