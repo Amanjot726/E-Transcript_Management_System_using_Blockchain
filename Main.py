@@ -97,12 +97,14 @@ class Blockchain:
         return hashlib.sha256(file_content).hexdigest()
 
 
-    def encrypt_file(self, file_name):
+    def encrypt_file(self, file_name, entered_user):
+        key = cursor.execute("Select encryKey from main where username=?", (username,)).fetchone()
+        fernet = Fernet(bytes(key[0], 'utf-8'))
         file = open(file_name, 'rb')
         file_content = file.read()
-        key = Fernet.generate_key()
-        print(key,type(key))
-        fernet = Fernet(key)
+        # key = Fernet.generate_key()
+        # print(key,type(key))
+        # fernet = Fernet(key)
         encrypted_file = fernet.encrypt(file_content)
         with open(file_name, 'wb') as f:
             f.write(encrypted_file)
@@ -208,23 +210,27 @@ def is_valid():
 
 @app.route('/upload', methods=['GET','POST'])
 def upload_file():
-    file_name = os.path.join(UPLOAD_FOLDER, 'certi.pdf')
-    key = cursor.execute("Select encryKey from main where username=?",(username,)).fetchone()
-    print(key,",",bytes(key[0],'utf-8'))
-    file = open(file_name, 'rb')
-    file_content = file.read()
-    fernet = Fernet(bytes(key[0],'utf-8'))
-    decrypted_file = fernet.decrypt(file_content)
-    with open(file_name, 'wb') as f:
-        f.write(decrypted_file)
     client = ipfshttpclient.connect("/dns/localhost/tcp/5001/http")
+    if os.path.exists(os.path.join(UPLOAD_FOLDER, 'certi.pdf')):
+        print("decrypt")
+        client.cat("")
+        file_name = os.path.join(UPLOAD_FOLDER, 'certi.pdf')
+        key = cursor.execute("Select encryKey from main where username=?",(username,)).fetchone()
+        print(key,",",bytes(key[0],'utf-8'))
+        file = open(file_name, 'rb')
+        file_content = file.read()
+        fernet = Fernet(bytes(key[0],'utf-8'))
+        decrypted_file = fernet.decrypt(file_content)
+        with open(file_name, 'wb') as f:
+            f.write(decrypted_file)
     # res = client.add("D:\epilight_cpp_new.pdf")
     # hash = res['Hash']
     if request.method == 'POST':
         f = request.files['file']
+        entered_user = request.form.get("username")
         #save file to uploads folder
         f.save(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
-        file, key = blockchain.encrypt_file(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
+        file, key = blockchain.encrypt_file(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)),entered_user)
         res = client.add(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
         file_hash = res['Hash']
         #get file hash
