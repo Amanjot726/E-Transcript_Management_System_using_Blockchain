@@ -25,6 +25,8 @@ cursor = db.cursor()
 
 # Part 1 - Building a Blockchain
 
+login_check = False
+client = ipfshttpclient.connect("/dns/localhost/tcp/5001/http")
 
 class Blockchain:
 
@@ -44,6 +46,14 @@ class Blockchain:
             block['filehash'] = FileHash
         self.chain.append(block)
         return block
+
+    def mine_block(self,file_hash=None):
+        previous_block = blockchain.get_previous_block()
+        previous_proof = previous_block['proof']
+        proof = blockchain.proof_of_work(previous_proof)
+        previous_hash = blockchain.hash(previous_block)
+        block = blockchain.create_block(proof, previous_hash, file_hash)
+        return block["index"]
 
     def get_previous_block(self):
         return self.chain[-1]
@@ -110,6 +120,20 @@ class Blockchain:
             f.write(encrypted_file)
         return encrypted_file,key
 
+    def decrypt_file(self, file_name):
+        if os.path.exists(os.path.join(UPLOAD_FOLDER, 'certi.pdf')):
+            print("decrypt")
+            client.cat("")
+            file_name = os.path.join(UPLOAD_FOLDER, 'certi.pdf')
+            key = cursor.execute("Select encryKey from main where username=?", (username,)).fetchone()
+            print(key, ",", bytes(key[0], 'utf-8'))
+            file = open(file_name, 'rb')
+            file_content = file.read()
+            fernet = Fernet(bytes(key[0], 'utf-8'))
+            decrypted_file = fernet.decrypt(file_content)
+            with open(file_name, 'wb') as f:
+                f.write(decrypted_file)
+
 
 
 # Part 2 - Mining our Blockchain
@@ -118,7 +142,9 @@ class Blockchain:
 app = Flask(__name__)
 # app.config[r'C:\Users\DELL\Desktop\Transcript Management Project\static\uploads']
 app.config['UPLOAD_FOLDER'] = '.\static\\uploads'
+app.config['DOWNLOAD_FOLDER'] = '.\static\\downloads'
 UPLOAD_FOLDER = app.config['UPLOAD_FOLDER']
+DOWNLOAD_FOLDER = app.config['DOWNLOAD_FOLDER']
 # app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['ALLOWED_EXTENSIONS'] = set(['pdf', 'png', 'jpg', 'jpeg'])
 
@@ -144,6 +170,7 @@ def login():
         # print(dbpassword[0])
         if password == dbpassword[0]:
             print("right")
+            login_check = True
             return redirect('/')
         else:
             return render_template('login.html')
@@ -163,13 +190,15 @@ def AddUser():
         user = request.form.get('username', "username")
         password = request.form.get('password', "password")
         encryKey = Fernet.generate_key()
+        hash = hashlib.sha256(str(user).encode()).hexdigest()
         print("Add user email: ", email)
         print("Add user Username: ", user)
         print("Add user password: ", password)
         print("Add user encryption Key: ", encryKey)
+        print("hash", hash)
         cursor.execute(
-            "INSERT INTO main(name, email, username, password, encryKey, listOfBlocks) values(?, ?, ?, ?, ?, ?)",
-            ("", email, user, password, encryKey, "",))
+            "INSERT INTO main(name, email, username, password, encryKey, listOfBlocks, hash) values(?, ?, ?, ?, ?, ?, ?)",
+            ("", email, user, password, encryKey, "", hash,))
         db.commit()
     return render_template('addUser.html')
 
@@ -188,23 +217,43 @@ def Dashboard():
         last_visit = "Last Visited " + str(last_visit) + " days ago"
 
     # print(last_visit)
-    # key = cursor.execute("Select hash from main where username=?", (username,)).fetchone()
-    return render_template('Dashboard.html', name="Amanjot Singh", last_visited=last_visit, hash=blockchain.hash(blockchain.chain[-1]))
+    hash_username, name, key, string_indexes = cursor.execute("Select hash, name, encryKey, listOfBlocks from main where username=?", (username,)).fetchone()
+    if string_indexes is not None:
+        if "," in string_indexes:
+            indexes = list(string_indexes.split(","))
+        else:
+            indexes = list(string_indexes)
+
+        hashes = []
+        for index in indexes:
+            hashes.append(blockchain.chain[index]['filehash'])
+
+        for hash in hashes:
+            file_content = client.cat(hash)
+            print(file_content)
+            print(key, ",", bytes(key, 'utf-8'))
+            fernet = Fernet(bytes(key, 'utf-8'))
+            decrypted_file = fernet.decrypt(file_content)
+            file_name = os.path.join(DOWNLOAD_FOLDER, 'certi.pdf')
+            with open(file_name, 'wb') as f:
+                f.write(decrypted_file)
+
+    return render_template('Dashboard.html', name=name, last_visited=last_visit, hash=hash_username)
 
 # Mining a new block
-@app.route('/mine_block', methods=['GET'])
-def mine_block(file_hash=None):
-    previous_block = blockchain.get_previous_block()
-    previous_proof = previous_block['proof']
-    proof = blockchain.proof_of_work(previous_proof)
-    previous_hash = blockchain.hash(previous_block)
-    block = blockchain.create_block(proof, previous_hash, file_hash)
-    response = {'message': 'Congratulations, you just mined a block!',
-                'index': block['index'],
-                'timestamp': block['timestamp'],
-                'proof': block['proof'],
-                'previous_hash': block['previous_hash']}
-    return jsonify(response), 200
+# @app.route('/mine_block', methods=['GET'])
+# def mine_block(file_hash=None):
+#     previous_block = blockchain.get_previous_block()
+#     previous_proof = previous_block['proof']
+#     proof = blockchain.proof_of_work(previous_proof)
+#     previous_hash = blockchain.hash(previous_block)
+#     block = blockchain.create_block(proof, previous_hash, file_hash)
+#     response = {'message': 'Congratulations, you just mined a block!',
+#                 'index': block['index'],
+#                 'timestamp': block['timestamp'],
+#                 'proof': block['proof'],
+#                 'previous_hash': block['previous_hash']}
+#     return jsonify(response), 200
 
 
 # Getting the full Blockchain
@@ -228,19 +277,6 @@ def is_valid():
 
 @app.route('/upload', methods=['GET','POST'])
 def upload_file():
-    client = ipfshttpclient.connect("/dns/localhost/tcp/5001/http")
-    if os.path.exists(os.path.join(UPLOAD_FOLDER, 'certi.pdf')):
-        print("decrypt")
-        client.cat("")
-        file_name = os.path.join(UPLOAD_FOLDER, 'certi.pdf')
-        key = cursor.execute("Select encryKey from main where username=?",(username,)).fetchone()
-        print(key,",",bytes(key[0],'utf-8'))
-        file = open(file_name, 'rb')
-        file_content = file.read()
-        fernet = Fernet(bytes(key[0],'utf-8'))
-        decrypted_file = fernet.decrypt(file_content)
-        with open(file_name, 'wb') as f:
-            f.write(decrypted_file)
     # res = client.add("D:\epilight_cpp_new.pdf")
     # hash = res['Hash']
     if request.method == 'POST':
@@ -254,7 +290,19 @@ def upload_file():
         #get file hash
         # file_hash = blockchain.file_to_sha256(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
         print("file hash =", file_hash)
-        r = mine_block(file_hash)[0]
+        block_index = blockchain.mine_block(file_hash)
+
+        string_indexes = cursor.execute("Select listOfBlocks from main where username=?", (username,)).fetchone()
+
+        if "," in string_indexes:
+            indexes = list(string_indexes.split(","))
+        else:
+            indexes = list(string_indexes)
+        indexes.append(block_index)
+        indexes = ",".join(indexes)
+        db.execute("update main set list_of_blocks=? where username=?", (indexes, username))
+
+
         return render_template('upload.html', response=0)
         # except Exception as e:
         #     print(e)
