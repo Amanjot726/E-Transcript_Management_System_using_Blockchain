@@ -48,11 +48,16 @@
                     <span class="option-name">Settings</span>
                     <div class="indicator"></div>
                 </div>
-                <div class="option">
+                <!-- <div class="option">
                     <i class="fa-solid fa-headset icon"></i>
                     <span class="option-name">Help</span>
                     <div class="indicator"></div>
-                </div>
+                </div> -->
+                <a class="option" href="/logout">
+                    <i class="fa-solid fa-lock icon"></i>
+                    <span class="option-name">Logout</span>
+                    <div class="indicator"></div>
+                </a>
             </div>
             <div class="get-app-section">
                 <div class="app-card">
@@ -109,10 +114,36 @@
                 <div class="files-header">
                     <span class="heading">Files</span>
                     <!-- <span class="count">{{File_count}}</span> -->
-                    <span class="count">6</span>
+                    <span class="count">{{file_count}}</span>
                 </div>
                 <div class="files">
-                    <div class="file_card my-tooltip">
+                    {%for i in range(0,file_count)%}
+  
+                    <div class="file_card">
+                        <div class="icon">
+                            <img src="static/images/pdf.png" alt="File Icon">
+                        </div>
+                        <div class="vertical-divider"></div>
+                        <div class="right-side">
+                            <div class="file_name">
+                                <span>{{files[i][0]}}</span>
+                            </div>
+                            <div class="options">
+                                <a href="{{files[i][1]}}" target="_blank">
+                                    <div class="option" data-toggle="tooltip" data-placement="left" title="Preview">
+                                        <i class="fa fa-regular fa-eye"></i>
+                                    </div>
+                                </a>
+                                <a href="{{files[i][1]}}" download="{{files[i][0]}}">
+                                    <div class="option" data-toggle="tooltip" data-placement="right" title="Download">
+                                        <i class="fa fa-download"></i>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+                    <div class="file_card">
                         <div class="icon">
                             <img src="static/images/pdf.png" alt="File Icon">
                         </div>

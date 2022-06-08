@@ -22,7 +22,7 @@
         <div class="card col-xl-auto">
           <div class="login-form" id = "login-f">
             <center><div class="heading"><a style="margin-top: 8px;">Login</a></div>
-            <form method = "POST" name = "login-form" id = "login_form" action="/login">
+            <form method = "POST" name="login-form" id="login_form" action="/login">
                 <br>
               <div class="sign-in">
                 <div class="col-auto">
@@ -40,7 +40,7 @@
                     <div>
                       <div class="custom-control custom-checkbox mr-sm-2 mt-3">
                         <input type="checkbox" class="custom-control-input" id="show-pass">
-                        <label class="custom-control-label show-hide-pass" for="show-pass">Show Password</label>
+                        <label class="custom-control-label show-hide-pass" for="show-pass {{login_success}}">Show Password</label>
                       </div>
                     </div>
                 </div>
@@ -117,4 +117,9 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="static/Js/common.js"></script>
 <script type="text/javascript" src="static/Js/login.js"></script>
+<script>
+  if ("{{login_success}}" == "False"){
+    alert("Login Failed");
+  }
+</script>
 </html>

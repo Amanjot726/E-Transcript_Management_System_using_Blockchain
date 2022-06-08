@@ -10,6 +10,7 @@ html {
 }
 
 body {
+  background-color: #f5f5fb !important;
   overscroll-behavior-y: none;
   background-color: #fafafa;
   -webkit-touch-callout: none;
@@ -492,6 +493,7 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  text-decoration: none;
   padding: 0px 0px 0px 65px;
   margin: 10px auto;
   border-radius: 10px;
@@ -659,6 +661,7 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
 .main-sc {
   width: calc(100% - 300px);
   height: auto;
+  min-height: 100vh;
   position: absolute;
   top: 0;
   left: 300px;
