@@ -152,15 +152,26 @@ def login():
 
     # username = request.form.get('username')
     # password = request.form.get('password')
-#     # print(username, password)
+    # print(username, password)
 
-@app.route('/add_user', methods=['GET', 'POST'])
-def AddUser(name, email, username, password, listOfBlocks):
-    encryKey
+
+@app.route('/Add-User', methods=['GET', 'POST'])
+def AddUser():
+    # print(request)
     if request.method == 'POST':
-        cursor.execute("INSERT INTO main(name, email, username, password, encryKey, listOfBlocks) values(name, email, username, password, encryKey, listOfBlocks)")
-
-
+        email = request.form.get('email', "email")
+        user = request.form.get('username', "username")
+        password = request.form.get('password', "password")
+        encryKey = Fernet.generate_key()
+        print("Add user email: ", email)
+        print("Add user Username: ", user)
+        print("Add user password: ", password)
+        print("Add user encryption Key: ", encryKey)
+        cursor.execute(
+            "INSERT INTO main(name, email, username, password, encryKey, listOfBlocks) values(?, ?, ?, ?, ?, ?)",
+            ("", email, user, password, encryKey, "",))
+        db.commit()
+    return render_template('addUser.html')
 
 @login_required
 @app.route('/', methods=['GET', 'POST'])

@@ -51,6 +51,45 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
   box-shadow: 0 0 0 0.2rem rgba(4, 141, 88, 0.6);
 }
 
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  background-color: #169e6a;
+  border-color: #048d58;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 0.2rem rgba(4, 141, 88, 0.502);
+}
+
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
+  /* border-color: #80bdff; */
+  border-color: #68f3be;
+}
+
+.custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+  color: #fff;
+  /* background-color: #b3d7ff; */
+  background-color: #aafcdd;
+  /* border-color: #b3d7ff; */
+  border-color: #aafcdd;
+}
+
+.custom-control-input[disabled] ~ .custom-control-label, .custom-control-input:disabled ~ .custom-control-label {
+  /* color: #6c757d; */
+  color: #5d746b;
+}
+
+.custom-control-input[disabled] ~ .custom-control-label::before, .custom-control-input:disabled ~ .custom-control-label::before {
+  /* background-color: #e9ecef; */
+  background-color: #e9f0ee;
+}
+
+
+
+
+
+
 .form-control:focus {
   color: #495057;
   background-color: rgba(255, 255, 255, 0.219);
