@@ -34,6 +34,7 @@ username = ""
 try:client = ipfshttpclient.connect("/dns/localhost/tcp/5001/http")
 except:
     print("Some Error Occur While connecting to IPFS")
+    exit()
     # print("Trying to connect Again")
     # output = subprocess.run(["powershell", "-Command", '"ipfs daemon"'], capture_output=True)
     # client = ipfshttpclient.connect("/dns/localhost/tcp/5001/http")
