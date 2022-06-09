@@ -15,11 +15,13 @@
 </head>
 <body>
     <div class="container">
-        <div class="flex flex-column">
-            <a href="{{ url_for('AddUser') }}"><button type="button" class="btn btn-outline-primary my-btn mt-2">Add User</button></a>
-            <a href="{{ url_for('upload_file') }}"><button type="button" class="btn btn-outline-primary my-btn mt-2">Upload Certificate</button></a>
-            <a href="{{ url_for('get_chain') }}"><button type="button" class="btn btn-outline-info">Get BlockChain</button></a>
-            <a href="{{ url_for('is_valid') }}"><button type="button" class="btn btn-outline-primary">Check Valid</button></a>
+        <h2 class="text-center mt-4"><u>ADMIN</u></h2>
+        <div class="d-sm-flex flex-column mt-3">
+            <h3>Options</h3>
+            <a href="{{ url_for('AddUser') }}"><button type="button" class="btn btn-outline-secondary my-btn mt-2 mb-2">Add User</button></a>
+            <a href="{{ url_for('upload_file') }}"><button type="button" class="btn btn-outline-success my-btn mt-2 mb-2">Upload Certificate</button></a>
+            <a href="{{ url_for('get_chain') }}"><button type="button" class="btn btn-outline-info mt-2 mb-2">Get BlockChain</button></a>
+            <a href="{{ url_for('is_valid') }}"><button type="button" class="btn btn-outline-primary mt-2 mb-2">Check Valid</button></a>
         </div>
     </div>
 </body>
