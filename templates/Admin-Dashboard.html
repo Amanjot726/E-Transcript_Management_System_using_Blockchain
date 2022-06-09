@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap.css"> -->
+    <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-grid.css"> -->
+    <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-grid.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-reboot.css"> -->
+    <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-reboot.min.css">
+    <link rel="stylesheet" type="text/css" href="static\css\main.css">
+    <title>Admin: E-Transcript Management</title>
+</head>
+<body>
+    <div class="container">
+        <div class="flex flex-column">
+            <a href="{{ url_for('AddUser') }}"><button type="button" class="btn btn-outline-primary my-btn mt-2">Add User</button></a>
+            <a href="{{ url_for('upload_file') }}"><button type="button" class="btn btn-outline-primary my-btn mt-2">Upload Certificate</button></a>
+            <a href="{{ url_for('get_chain') }}"><button type="button" class="btn btn-outline-info">Get BlockChain</button></a>
+            <a href="{{ url_for('is_valid') }}"><button type="button" class="btn btn-outline-primary">Check Valid</button></a>
+        </div>
+    </div>
+</body>
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- <script src="static/Js/bootstrap-js/bootstrap.bundle.js"></script>
+<script src="static/Js/bootstrap-js/bootstrap.bundle.min.js"></script> -->
+<!-- <script src="static/Js/bootstrap-js/bootstrap.js"></script> -->
+<script src="static/Js/bootstrap-js/bootstrap.min.js"></script>
+<!-- <script src="static/Js/bootstrap-js/maxcdn-bootstrap.min.js"></script> -->
+<!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+<!-- <script type="text/javascript" src="static/Js/common.js"></script>
+<script type="text/javascript" src="static/Js/Dashboard.js"></script> -->
+</html>

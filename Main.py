@@ -201,6 +201,8 @@ app.config['UPLOAD_FOLDER'] = '.\static\\uploads'
 app.config['DOWNLOAD_FOLDER'] = '.\static\\downloads'
 UPLOAD_FOLDER = app.config['UPLOAD_FOLDER']
 DOWNLOAD_FOLDER = app.config['DOWNLOAD_FOLDER']
+if not os.path.exists(UPLOAD_FOLDER): os.mkdir(UPLOAD_FOLDER)
+if not os.path.exists(DOWNLOAD_FOLDER): os.mkdir(DOWNLOAD_FOLDER)
 # app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['ALLOWED_EXTENSIONS'] = set(['pdf', 'png', 'jpg', 'jpeg'])
 
@@ -208,7 +210,6 @@ app.config['ALLOWED_EXTENSIONS'] = set(['pdf', 'png', 'jpg', 'jpeg'])
 
 # Creating a Blockchain
 blockchain = Blockchain()
-blockchain.mine_block()
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -271,76 +272,84 @@ def AddUser():
 @app.route('/', methods=['GET', 'POST'])
 def Dashboard():
     global login_check
-    if login_check == True:
-        date_time.now().strftime("%I %b %Y")
-        date1 = date(2022, 4, 15)
-        date2 = date(2022, 4, 15)
-        last_visit = (date2-date1).days
-        if last_visit == 0:
-            last_visit = "Last Visited Today"
-        elif last_visit == 1:
-            last_visit = "Last Visited Yesterday"
+    print(username)
+    print(authority_check(username))
+    if authority_check(username) == True:
+        if login_check == True:
+            return render_template('Admin-Dashboard.html')
         else:
-            last_visit = "Last Visited " + str(last_visit) + " days ago"
-
-        hash_username, name, key, string_indexes = cursor.execute("Select hash, name, encryKey, listOfBlocks from main where username=?", (username,)).fetchone()
-        indexes = []
-        files = []
-        if string_indexes is not None and string_indexes != '':
-            if "," in string_indexes:
-                print("if ,")
-                indexes = list(string_indexes.split(","))
-            else:
-                print("new else")
-                indexes.append(string_indexes)
-
-            # hashes = []
-            # file_names = []
-            files = []
-            # try:
-            print("indexes",indexes)
-            if "" in indexes:
-                indexes.remove("")
-            print("indexes", indexes)
-            for index in indexes:
-                if index != '':
-                    index = int(index)
-                    # print(blockchain.chain)
-                    # hashes.append(blockchain.chain[index]['filehash']
-                    # file_names.append(blockchain.chain[index]['filename'])
-                    file_hash = blockchain.chain[index]['filehash']
-                    file_name = blockchain.chain[index]['filename']
-                    file_content = client.cat(file_hash)
-                    print(key, ",", bytes(key, 'utf-8'))
-                    fernet = Fernet(bytes(key, 'utf-8'))
-                    decrypted_file = fernet.decrypt(file_content)
-                    file_path = os.path.join(DOWNLOAD_FOLDER, file_name)
-                    with open(file_path, 'wb') as f:
-                        f.write(decrypted_file)
-                        files.append([file_name,file_path])
-                else:
-                    # print("else")
-                    pass
-            # except Exception as e:
-            #     print("Error = \n"+str(e)+"\n"+str(e.__traceback__.tb_lasti))
-
-            print(files)
-            files = [[i[0].split(".")[0].replace("_"," ") , i[1].replace("//","/")] for i in files]
-
-            # for hash in hashes:
-            #     file_content = client.cat(hash)
-            #     print(file_content)
-            #     print(key, ",", bytes(key, 'utf-8'))
-            #     fernet = Fernet(bytes(key, 'utf-8'))
-            #     decrypted_file = fernet.decrypt(file_content)
-            #     file_name = os.path.join(DOWNLOAD_FOLDER, 'certi.pdf')
-            #     with open(file_name, 'wb') as f:
-            #         f.write(decrypted_file)
-        print(indexes)
-        return render_template('Dashboard.html', name=name, last_visited=last_visit, hash=hash_username,file_count=len(indexes),files=files)
-
+            return redirect('/login')
     else:
-        return redirect('/login')
+        if login_check == True:
+            date_time.now().strftime("%I %b %Y")
+            date1 = date(2022, 4, 15)
+            date2 = date(2022, 4, 15)
+            last_visit = (date2-date1).days
+            if last_visit == 0:
+                last_visit = "Last Visited Today"
+            elif last_visit == 1:
+                last_visit = "Last Visited Yesterday"
+            else:
+                last_visit = "Last Visited " + str(last_visit) + " days ago"
+
+            hash_username, name, key, string_indexes = cursor.execute("Select hash, name, encryKey, listOfBlocks from main where username=?", (username,)).fetchone()
+            indexes = []
+            files = []
+            if string_indexes is not None and string_indexes != '':
+                if "," in string_indexes:
+                    print("if ,")
+                    indexes = list(string_indexes.split(","))
+                else:
+                    print("new else")
+                    indexes.append(string_indexes)
+
+                # hashes = []
+                # file_names = []
+                files = []
+                # try:
+                print("indexes",indexes)
+                if "" in indexes:
+                    indexes.remove("")
+                print("indexes", indexes)
+                for index in indexes:
+                    if index != '':
+                        index = int(index)
+                        # print(blockchain.chain)
+                        # hashes.append(blockchain.chain[index]['filehash']
+                        # file_names.append(blockchain.chain[index]['filename'])
+                        file_hash = blockchain.chain[index]['filehash']
+                        file_name = blockchain.chain[index]['filename']
+                        file_content = client.cat(file_hash)
+                        print(key, ",", bytes(key, 'utf-8'))
+                        fernet = Fernet(bytes(key, 'utf-8'))
+                        decrypted_file = fernet.decrypt(file_content)
+                        file_path = os.path.join(DOWNLOAD_FOLDER, file_name)
+                        with open(file_path, 'wb') as f:
+                            f.write(decrypted_file)
+                            files.append([file_name,file_path])
+                    else:
+                        # print("else")
+                        pass
+                # except Exception as e:
+                #     print("Error = \n"+str(e)+"\n"+str(e.__traceback__.tb_lasti))
+
+                print(files)
+                files = [[i[0].split(".")[0].replace("_"," ") , i[1].replace("//","/")] for i in files]
+
+                # for hash in hashes:
+                #     file_content = client.cat(hash)
+                #     print(file_content)
+                #     print(key, ",", bytes(key, 'utf-8'))
+                #     fernet = Fernet(bytes(key, 'utf-8'))
+                #     decrypted_file = fernet.decrypt(file_content)
+                #     file_name = os.path.join(DOWNLOAD_FOLDER, 'certi.pdf')
+                #     with open(file_name, 'wb') as f:
+                #         f.write(decrypted_file)
+            print(indexes)
+            return render_template('Dashboard.html', name=name, last_visited=last_visit, hash=hash_username,file_count=len(indexes),files=files)
+
+        else:
+            return redirect('/login')
 
 
 # Mining a new block
@@ -419,7 +428,7 @@ def upload_file():
         return render_template('upload.html')
 
 def authority_check(authority):
-    if authority == 'admin':
+    if authority == 'Admin':
         return True
     else:
         return False
