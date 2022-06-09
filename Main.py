@@ -8,7 +8,7 @@
 import datetime
 import hashlib
 import json
-from flask import Flask, jsonify, request, render_template, redirect, url_for, session
+from flask import Flask, jsonify, request, render_template, redirect, url_for, session,Response
 from flask_session import Session
 from werkzeug.utils import secure_filename
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
@@ -251,29 +251,34 @@ def logout():
 @app.route('/add_user', methods=['GET', 'POST'])
 def AddUser():
     # print(request)
-    if request.method == 'POST':
-        name = request.form.get('name').strip()
-        user = request.form.get('roll_no').strip()
-        email = request.form.get('email').strip()
-        first_name = name.split(" ")[0] if " " in name else name
-        password = first_name+user
-        encryKey = str(Fernet.generate_key())[2:-1]
-        hash = hashlib.sha256(str(user).encode()).hexdigest()
-        print("Add user email: ", email)
-        print("Add user Username: ", user)
-        print("Add user password: ", password)
-        print("Add user encryption Key: ", encryKey)
-        print("hash", hash)
-        cursor.execute("INSERT INTO main(name, email, username, password, encryKey, listOfBlocks, hash) values(?, ?, ?, ?, ?, ?, ?)",(name, email, user, password, encryKey, "", hash,))
-        db.commit()
-    return render_template('addUser.html')
+    if authority_check(username) == True:
+        if login_check == True:
+            if request.method == 'POST':
+                name = request.form.get('name').strip()
+                user = request.form.get('roll_no').strip()
+                email = request.form.get('email').strip()
+                first_name = name.split(" ")[0] if " " in name else name
+                password = first_name + user
+                encryKey = str(Fernet.generate_key())[2:-1]
+                hash = hashlib.sha256(str(user).encode()).hexdigest()
+                print("Add user email: ", email)
+                print("Add user Username: ", user)
+                print("Add user password: ", password)
+                print("Add user encryption Key: ", encryKey)
+                print("hash", hash)
+                cursor.execute("INSERT INTO main(name, email, username, password, encryKey, listOfBlocks, hash) values(?, ?, ?, ?, ?, ?, ?)", (name, email, user, password, encryKey, "", hash,))
+                db.commit()
+            return render_template('addUser.html')
+        else:
+            return redirect('/login')
+    else:
+        return Response("Not Authorized")
+
 
 @login_required
 @app.route('/', methods=['GET', 'POST'])
 def Dashboard():
     global login_check
-    print(username)
-    print(authority_check(username))
     if authority_check(username) == True:
         if login_check == True:
             return render_template('Admin-Dashboard.html')
@@ -334,7 +339,7 @@ def Dashboard():
                 #     print("Error = \n"+str(e)+"\n"+str(e.__traceback__.tb_lasti))
 
                 print(files)
-                files = [[i[0].split(".")[0].replace("_"," ") , i[1].replace("//","/")] for i in files]
+                files = [[i[0][0:-4].replace("_"," ") , i[1].replace("//","/")] for i in files]
 
                 # for hash in hashes:
                 #     file_content = client.cat(hash)
@@ -371,61 +376,77 @@ def Dashboard():
 # Getting the full Blockchain
 @app.route('/get_chain', methods=['GET'])
 def get_chain():
-    response = {'chain': blockchain.chain,
-                'length': len(blockchain.chain)}
-    return jsonify(response), 200
+    if authority_check(username) == True:
+        if login_check == True:
+            response = {'chain': blockchain.chain,
+                        'length': len(blockchain.chain)}
+            return jsonify(response), 200
+        else:
+            return redirect('/login')
+    else:
+        return Response("Not Authorized")
 
 
 # Checking if the Blockchain is valid
 @app.route('/is_valid', methods=['GET'])
 def is_valid():
-    is_valid = blockchain.is_chain_valid(blockchain.chain)
-    if is_valid:
-        response = {'message': 'All good. The Blockchain is valid.'}
+    if authority_check(username) == True:
+        if login_check == True:
+            is_valid = blockchain.is_chain_valid(blockchain.chain)
+            if is_valid:
+                response = {'message': 'All good. The Blockchain is valid.'}
+            else:
+                response = {'message': 'Houston, we have a problem. The Blockchain is not valid.'}
+            return jsonify(response), 200
+        else:
+            return redirect('/login')
     else:
-        response = {'message': 'Houston, we have a problem. The Blockchain is not valid.'}
-    return jsonify(response), 200
+        return Response("Not Authorized")
+
 
 
 @app.route('/upload', methods=['GET','POST'])
 def upload_file():
-    # res = client.add("D:\epilight_cpp_new.pdf")
-    # hash = res['Hash']
-    if request.method == 'POST':
-        f = request.files['file']
-        entered_user = request.form.get("username")
-        #save file to uploads folder
-        f.save(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
-        file, key = blockchain.encrypt_file(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)),entered_user)
-        res = client.add(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
-        file_hash = res['Hash']
-        #get file hash
-        # file_hash = blockchain.file_to_sha256(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
-        print("file hash =", file_hash)
-        block_index = blockchain.mine_block(FileHash=file_hash,FileName=secure_filename(f.filename))
+    if authority_check(username) == True:
+        if login_check == True:
+            if request.method == 'POST':
+                f = request.files['file']
+                entered_user = request.form.get("username")
+                # save file to uploads folder
+                f.save(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
+                file, key = blockchain.encrypt_file(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)), entered_user)
+                res = client.add(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
+                file_hash = res['Hash']
+                # get file hash
+                # file_hash = blockchain.file_to_sha256(os.path.join(UPLOAD_FOLDER, secure_filename(f.filename)))
+                print("file hash =", file_hash)
+                block_index = blockchain.mine_block(FileHash=file_hash, FileName=secure_filename(f.filename))
 
-        string_indexes = cursor.execute("Select listOfBlocks from main where username=?", (entered_user,)).fetchone()
-        print(string_indexes)
-        if "," in string_indexes:
-            indexes = list(string_indexes.split(","))
-            indexes.append(block_index)
-            indexes = ",".join(indexes)
+                string_indexes = cursor.execute("Select listOfBlocks from main where username=?", (entered_user,)).fetchone()
+                print(string_indexes)
+                if "," in string_indexes:
+                    indexes = list(string_indexes.split(","))
+                    indexes.append(block_index)
+                    indexes = ",".join(indexes)
+                else:
+                    indexes = []
+                    indexes.append(str(block_index))
+                    if string_indexes != '':
+                        indexes.append(string_indexes[0])
+                    indexes = ",".join(list(indexes))
+                db.execute("update main set listOfBlocks=? where username=?", (indexes, entered_user))
+                db.commit()
+
+                return render_template('upload.html', response=0)
+                # except Exception as e:
+                #     print(e)
+                #     return render_template('upload.html', upload='fail')
+            else:
+                return render_template('upload.html')
+
         else:
-            indexes = []
-            indexes.append(str(block_index))
-            if string_indexes != '':
-                indexes.append(string_indexes[0])
-            indexes = ",".join(list(indexes))
-        db.execute("update main set listOfBlocks=? where username=?", (indexes, entered_user))
-        db.commit()
+            return Response("Not Authorized")
 
-
-        return render_template('upload.html', response=0)
-        # except Exception as e:
-        #     print(e)
-        #     return render_template('upload.html', upload='fail')
-    else:
-        return render_template('upload.html')
 
 def authority_check(authority):
     if authority == 'Admin':

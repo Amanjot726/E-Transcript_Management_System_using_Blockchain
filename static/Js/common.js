@@ -2,7 +2,10 @@ $(document).ready(function (e) {
   $(document).bind('contextmenu', function (e) {
     return false
   });
-  $('[data-toggle="tooltip"]').tooltip();
+  try{
+    $('[data-toggle="tooltip"]').tooltip();
+  }
+  catch(e){}
 })
 // document.onkeydown = function (e) {
 //   if (
