@@ -211,6 +211,16 @@ app.config['ALLOWED_EXTENSIONS'] = set(['pdf', 'png', 'jpg', 'jpeg'])
 # Creating a Blockchain
 blockchain = Blockchain()
 
+def redirect_dest(fallback):
+    dest = request.args.get('next')
+    print("next",dest)
+    try:
+        dest_url = url_for(dest)
+    except:
+        return redirect(fallback)
+    return redirect(dest_url)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     print("hello123")
@@ -230,7 +240,7 @@ def login():
                 print("right")
                 login_check = True
                 username = e_username
-                return redirect('/')
+                return redirect_dest(fallback=url_for('Dashboard'))
         else:
             return render_template('login.html',login_success=False)
 
@@ -248,11 +258,11 @@ def logout():
     return redirect('/login')
 
 
-@app.route('/add_user', methods=['GET', 'POST'])
-def AddUser():
+@app.route('/Add_user', methods=['GET', 'POST'])
+def Add_user():
     # print(request)
-    if authority_check(username) == True:
-        if login_check == True:
+    if login_check == True:
+        if authority_check(username) == True:
             if request.method == 'POST':
                 name = request.form.get('name').strip()
                 user = request.form.get('roll_no').strip()
@@ -270,22 +280,19 @@ def AddUser():
                 db.commit()
             return render_template('addUser.html')
         else:
-            return redirect('/login')
+            return Response("<h2>Not Authorized</h2><h4><a href='/logout'>Click here to logout</a></h4>")
     else:
-        return Response("Not Authorized")
+        return redirect(url_for('login', next=request.endpoint))
 
 
 @login_required
 @app.route('/', methods=['GET', 'POST'])
 def Dashboard():
     global login_check
-    if authority_check(username) == True:
-        if login_check == True:
+    if login_check == True:
+        if authority_check(username) == True:
             return render_template('Admin-Dashboard.html')
         else:
-            return redirect('/login')
-    else:
-        if login_check == True:
             date_time.now().strftime("%I %b %Y")
             date1 = date(2022, 4, 15)
             date2 = date(2022, 4, 15)
@@ -353,8 +360,67 @@ def Dashboard():
             print(indexes)
             return render_template('Dashboard.html', name=name, last_visited=last_visit, hash=hash_username,file_count=len(indexes),files=files)
 
+    else:
+        return redirect(url_for('login', next=request.endpoint))
+
+
+@app.route('/Access_files/<hash>', methods=['GET'])
+def Access_files(hash):
+    hash_username, name, key, string_indexes = cursor.execute("Select hash, name, encryKey, listOfBlocks from main where hash=?", (hash,)).fetchone()
+    indexes = []
+    files = []
+    if string_indexes is not None and string_indexes != '':
+        if "," in string_indexes:
+            print("if ,")
+            indexes = list(string_indexes.split(","))
         else:
-            return redirect('/login')
+            print("new else")
+            indexes.append(string_indexes)
+
+        # hashes = []
+        # file_names = []
+        files = []
+        # try:
+        print("indexes", indexes)
+        if "" in indexes:
+            indexes.remove("")
+        print("indexes", indexes)
+        for index in indexes:
+            if index != '':
+                index = int(index)
+                # print(blockchain.chain)
+                # hashes.append(blockchain.chain[index]['filehash']
+                # file_names.append(blockchain.chain[index]['filename'])
+                file_hash = blockchain.chain[index]['filehash']
+                file_name = blockchain.chain[index]['filename']
+                file_content = client.cat(file_hash)
+                print(key, ",", bytes(key, 'utf-8'))
+                fernet = Fernet(bytes(key, 'utf-8'))
+                decrypted_file = fernet.decrypt(file_content)
+                file_path = os.path.join(DOWNLOAD_FOLDER, file_name)
+                with open(file_path, 'wb') as f:
+                    f.write(decrypted_file)
+                    files.append([file_name, file_path])
+            else:
+                # print("else")
+                pass
+        # except Exception as e:
+        #     print("Error = \n"+str(e)+"\n"+str(e.__traceback__.tb_lasti))
+
+        print(files)
+        files = [[i[0][0:-4].replace("_", " "), i[1].replace("//", "/")] for i in files]
+
+        # for hash in hashes:
+        #     file_content = client.cat(hash)
+        #     print(file_content)
+        #     print(key, ",", bytes(key, 'utf-8'))
+        #     fernet = Fernet(bytes(key, 'utf-8'))
+        #     decrypted_file = fernet.decrypt(file_content)
+        #     file_name = os.path.join(DOWNLOAD_FOLDER, 'certi.pdf')
+        #     with open(file_name, 'wb') as f:
+        #         f.write(decrypted_file)
+    print(indexes)
+    return render_template('Access_files.html',file_count=len(indexes),files=files)
 
 
 # Mining a new block
@@ -376,22 +442,22 @@ def Dashboard():
 # Getting the full Blockchain
 @app.route('/get_chain', methods=['GET'])
 def get_chain():
-    if authority_check(username) == True:
-        if login_check == True:
+    if login_check == True:
+        if authority_check(username) == True:
             response = {'chain': blockchain.chain,
                         'length': len(blockchain.chain)}
             return jsonify(response), 200
         else:
-            return redirect('/login')
+            return Response("<h2>Not Authorized</h2><h4><a href='/logout'>Click here to logout</a></h4>")
     else:
-        return Response("Not Authorized")
+        return redirect(url_for('login', next=request.endpoint))
 
 
 # Checking if the Blockchain is valid
 @app.route('/is_valid', methods=['GET'])
 def is_valid():
-    if authority_check(username) == True:
-        if login_check == True:
+    if login_check == True:
+        if authority_check(username) == True:
             is_valid = blockchain.is_chain_valid(blockchain.chain)
             if is_valid:
                 response = {'message': 'All good. The Blockchain is valid.'}
@@ -399,16 +465,16 @@ def is_valid():
                 response = {'message': 'Houston, we have a problem. The Blockchain is not valid.'}
             return jsonify(response), 200
         else:
-            return redirect('/login')
+            return Response("<h2>Not Authorized</h2><h4><a href='/logout'>Click here to logout</a></h4>")
     else:
-        return Response("Not Authorized")
+        return redirect(url_for('login', next=request.endpoint))
 
 
 
 @app.route('/upload', methods=['GET','POST'])
-def upload_file():
-    if authority_check(username) == True:
-        if login_check == True:
+def upload():
+    if login_check == True:
+        if authority_check(username) == True:
             if request.method == 'POST':
                 f = request.files['file']
                 entered_user = request.form.get("username")
@@ -430,9 +496,9 @@ def upload_file():
                     indexes = ",".join(indexes)
                 else:
                     indexes = []
-                    indexes.append(str(block_index))
                     if string_indexes != '':
                         indexes.append(string_indexes[0])
+                    indexes.append(str(block_index))
                     indexes = ",".join(list(indexes))
                 db.execute("update main set listOfBlocks=? where username=?", (indexes, entered_user))
                 db.commit()
@@ -445,7 +511,9 @@ def upload_file():
                 return render_template('upload.html')
 
         else:
-            return Response("Not Authorized")
+            return Response("<h2>Not Authorized</h2><h4><a href='/logout'>Click here to logout</a></h4>")
+    else:
+        return redirect(url_for('login', next=request.endpoint))
 
 
 def authority_check(authority):

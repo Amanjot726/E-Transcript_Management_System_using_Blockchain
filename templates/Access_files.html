@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie|Lato|Pacifico|Raleway|Merriweather|Passion+One:wght@400;700;900|Roboto+Slab:wght@300;400&display=swap">
+    <!-- <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-grid.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-grid.min.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-reboot.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-reboot.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="\static\css\Main.css">
+    <title>Dashboard: E-Transcript Management</title>
+</head>
+
+<body>
+    <div class="main-sc align-self-center" style="width: 100%;position: relative;min-height:auto;left:0px;">
+        <div class="files-block" style="height: min-content;">
+            <div class="files-header">
+                <span class="heading">Files</span>
+                <!-- <span class="count">{{File_count}}</span> -->
+                <span class="count">{{file_count}}</span>
+            </div>
+            <div class="files">
+                {%for i in range(0,file_count)%}
+
+                <div class="file_card">
+                    <div class="icon">
+                        <img src="static/images/pdf.png" alt="File Icon">
+                    </div>
+                    <div class="vertical-divider"></div>
+                    <div class="right-side">
+                        <div class="file_name">
+                            <span>{{files[i][0]}}</span>
+                        </div>
+                        <div class="options">
+                            <a href="{{files[i][1]}}" target="_blank">
+                                <div class="option" data-toggle="tooltip" data-placement="left" title="Preview">
+                                    <i class="fa fa-regular fa-eye"></i>
+                                </div>
+                            </a>
+                            <a href="{{files[i][1]}}" download="{{files[i][0]}}">
+                                <div class="option" data-toggle="tooltip" data-placement="right" title="Download">
+                                    <i class="fa fa-download"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- <script src="static/Js/bootstrap-js/bootstrap.bundle.js"></script>
+<script src="static/Js/bootstrap-js/bootstrap.bundle.min.js"></script> -->
+<!-- <script src="static/Js/bootstrap-js/bootstrap.js"></script> -->
+<script src="static/Js/bootstrap-js/bootstrap.min.js"></script>
+<script src="static/Js/bootstrap-js/maxcdn-bootstrap.min.js"></script>
+<!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+<script type="text/javascript" src="static/Js/common.js"></script>
+<script type="text/javascript" src="static/Js/Dashboard.js"></script>
+</html>

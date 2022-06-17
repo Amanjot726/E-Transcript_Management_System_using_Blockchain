@@ -202,13 +202,14 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
     color: rgba(0, 0, 0, 0.404);
     font-size: 13px;
     vertical-align: middle;
-    font-family: lato;
+    font-family: lato !important;
     letter-spacing: -0.4px;
   }
   input {
     font-size: 13px;
     vertical-align: middle;
     font-family: lato;
+    font-family: 'Lato' !important;
     letter-spacing: -0.4px;
     text-overflow: ellipsis;
   }
