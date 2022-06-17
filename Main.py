@@ -175,7 +175,7 @@ class Blockchain:
         print(res)
         chain = json.dumps({'chain': self.chain})
         if len(res) == 0:
-            print("if")
+            print("if state")
             cursor.execute("INSERT INTO Blockchain(chain) values(?)", (chain,))
         else:
             print("del_else")
@@ -489,17 +489,30 @@ def upload():
                 block_index = blockchain.mine_block(FileHash=file_hash, FileName=secure_filename(f.filename))
 
                 string_indexes = cursor.execute("Select listOfBlocks from main where username=?", (entered_user,)).fetchone()
+                string_indexes = string_indexes[0]
                 print(string_indexes)
                 if "," in string_indexes:
+                    print("here")
+                    if string_indexes[-1] == ",":
+                        string_indexes = string_indexes[0:-1]
                     indexes = list(string_indexes.split(","))
                     indexes.append(block_index)
                     indexes = ",".join(indexes)
                 else:
                     indexes = []
-                    if string_indexes != '':
-                        indexes.append(string_indexes[0])
-                    indexes.append(str(block_index))
-                    indexes = ",".join(list(indexes))
+                    print("here2")
+                    if string_indexes == " ":
+                        print("else if")
+                        indexes.append(str(block_index))
+                        indexes = ",".join(list(indexes))
+                    else:
+                        print("else else if")
+                        if string_indexes != '':
+                            print("else else if if")
+                            indexes.append(string_indexes[0])
+                        indexes.append(str(block_index))
+                        indexes = ",".join(list(indexes))
+                print("before commit = ",indexes)
                 db.execute("update main set listOfBlocks=? where username=?", (indexes, entered_user))
                 db.commit()
 
