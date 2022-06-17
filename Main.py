@@ -408,7 +408,7 @@ def Access_files(hash):
         #     print("Error = \n"+str(e)+"\n"+str(e.__traceback__.tb_lasti))
 
         print(files)
-        files = [[i[0][0:-4].replace("_", " "), i[1].replace("//", "/")] for i in files]
+        files = [[i[0][0:-4].replace("_", " "), "/"+i[1].replace("//", "/")] for i in files]
 
         # for hash in hashes:
         #     file_content = client.cat(hash)
