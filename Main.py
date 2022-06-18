@@ -8,7 +8,7 @@
 import datetime
 import hashlib
 import json
-from flask import Flask, jsonify, request, render_template, redirect, url_for, session,Response
+from flask import Flask, jsonify, request, render_template, redirect, url_for, session,Response,render_template_string
 from flask_session import Session
 from werkzeug.utils import secure_filename
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
@@ -223,14 +223,12 @@ def redirect_dest(fallback):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print("hello123")
-    print(request)
     global login_check
     if request.method == 'POST':
-        print("post")
         global username
-        e_username = request.form.get('username', "username")
-        e_password = request.form.get('password', "password")
+        e_username = request.form.get('username')
+        e_password = request.form.get('password')
+        js_status = request.form.get('js_status')
         print(e_username, e_password)
 
         dbpassword = cursor.execute("select password from main where username=?",(e_username,)).fetchone()
@@ -240,11 +238,25 @@ def login():
                 print("right")
                 login_check = True
                 username = e_username
-                return redirect_dest(fallback=url_for('Dashboard'))
+                if js_status == 'Enabled':
+                    response = {'login_success': True, 'redirect': url_for('Dashboard')}
+                    dest = request.args.get('next')
+                    if dest != "":
+                        response = {'login_success': True, 'redirect': url_for(dest)}
+                    return jsonify(response), 200
+                else:
+                    return redirect_dest(fallback=url_for('Dashboard'))
         else:
-            return render_template('login.html',login_success=False)
-
-    return render_template('login.html',login_success=None)
+            if js_status == 'Enabled':
+                response = {'login_success': False,'redirect': False}
+                return jsonify(response), 200
+            else:
+                return render_template('login.html',login_success=False)
+    else:
+        if login_check:
+            return redirect('/')
+        else:
+            return render_template('login.html',login_success=None)
 
     # username = request.form.get('username')
     # password = request.form.get('password')
@@ -255,7 +267,7 @@ def logout():
     global login_check
     login_check = False
     username = ""
-    return redirect('/login')
+    return redirect_dest(fallback=url_for('login'))
 
 
 @app.route('/Add_user', methods=['GET', 'POST'])
@@ -280,7 +292,7 @@ def Add_user():
                 db.commit()
             return render_template('addUser.html')
         else:
-            return Response("<h2>Not Authorized</h2><h4><a href='/logout'>Click here to logout</a></h4>")
+            return render_template_string("<title>Not Authorized</title><h2>Not Authorized</h2><h4><a href='{{ url_for('logout', next=request.endpoint) }}'>Click here to logout</a></h4>")
     else:
         return redirect(url_for('login', next=request.endpoint))
 
@@ -448,7 +460,7 @@ def get_chain():
                         'length': len(blockchain.chain)}
             return jsonify(response), 200
         else:
-            return Response("<h2>Not Authorized</h2><h4><a href='/logout'>Click here to logout</a></h4>")
+            return render_template_string("<title>Not Authorized</title><h2>Not Authorized</h2><h4><a href='{{ url_for('logout', next=request.endpoint) }}'>Click here to logout</a></h4>")
     else:
         return redirect(url_for('login', next=request.endpoint))
 
@@ -465,7 +477,7 @@ def is_valid():
                 response = {'message': 'Houston, we have a problem. The Blockchain is not valid.'}
             return jsonify(response), 200
         else:
-            return Response("<h2>Not Authorized</h2><h4><a href='/logout'>Click here to logout</a></h4>")
+            return render_template_string("<title>Not Authorized</title><h2>Not Authorized</h2><h4><a href='{{ url_for('logout', next=request.endpoint) }}'>Click here to logout</a></h4>")
     else:
         return redirect(url_for('login', next=request.endpoint))
 
@@ -524,7 +536,7 @@ def upload():
                 return render_template('upload.html')
 
         else:
-            return Response("<h2>Not Authorized</h2><h4><a href='/logout'>Click here to logout</a></h4>")
+            return render_template_string("<title>Not Authorized</title><h2>Not Authorized</h2><h4><a href='{{ url_for('logout', next=request.endpoint) }}'>Click here to logout</a></h4>")
     else:
         return redirect(url_for('login', next=request.endpoint))
 

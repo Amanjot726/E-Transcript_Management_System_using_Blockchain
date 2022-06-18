@@ -494,7 +494,7 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
             margin: 10px auto;
             border-radius: 10px;
             background-color: rgb(250, 250, 250);
-            transition: all 0.2s ease-in-out;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
             // border-bottom: 1px solid rgb(230, 230, 230);
 
             &.active {
@@ -617,7 +617,7 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
                 font-weight: bold;
                 font-family: Lato;
                 letter-spacing: 0.8px;
-                transition: all 0.15s ease-in-out;
+                transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
                 text-transform: uppercase;
                 cursor: pointer;
 

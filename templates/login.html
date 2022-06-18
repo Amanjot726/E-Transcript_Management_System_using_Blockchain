@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie|Lato|Pacifico|Raleway|Merriweather|Passion+One:wght@400;700;900|Roboto+Slab:wght@300;400&display=swap">
     <!-- <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap.css"> -->
     <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap.min.css">
     <!-- <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-grid.css"> -->
@@ -12,6 +11,7 @@
     <!-- <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-reboot.css"> -->
     <link rel="stylesheet" type="text/css" href="static\css\Bootstrap\css\bootstrap-reboot.min.css">
     <link rel="stylesheet" type="text/css" href="static\css\login.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie|Lato|Pacifico|Raleway|Merriweather|Passion+One:wght@400;700;900|Roboto+Slab:wght@300;400&display=swap">
     <title>Login: E-Transcript Management</title>
 </head>
 
@@ -22,7 +22,7 @@
         <div class="card col-xl-auto">
           <div class="login-form" id = "login-f">
             <center><div class="heading"><a style="margin-top: 8px;">Login</a></div>
-            <form method = "POST" name="login-form" id="login_form" action="{{ url_for('login', next=request.args.next) }}">
+            <form method = "POST" name="login-form" id="login_form" action="{{ url_for('login', next=request.args.next) }}" data-login_status="{{login_success}}">
                 <br>
               <div class="sign-in">
                 <div class="col-auto">
@@ -44,8 +44,9 @@
                       </div>
                     </div>
                 </div>
+                <input type="hidden" name="js_status" value="Disabled">
                 <div class="form-group mt-3">
-                  <div class="col-sm-10"><button type="button" class="btn btn-outline-primary login" id="login">Login</button></div>
+                  <div class="col-sm-10"><button type="submit" class="btn btn-outline-primary login" id="login">Login</button></div>
                 </div>
                 <div class="mb-4"><a href="/forgot-pass" class="f-p">&nbsp;&nbsp;Forgot password ?</a> </div>
 <!--                <div class="mt-3 mb-4">Don't have an account? <a class="s-ui" id="ch-auth-su">Sign up</a></div>-->
@@ -108,18 +109,34 @@
         </div>
       </center>
     </div>
+    <div class="modal fade" id="LoginStatus" tabindex="-1" aria-labelledby="LoginStatusLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="LoginStatusLabel">Login Failed</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Incorrect username or password. Please try again.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Okay</button>
+          </div>
+        </div>
+      </div>
+    </div>    
 </body>
+<script type="text/javascript">
+  document.getElementById('login_form').reset();
+</script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <!-- <script src="static/Js/bootstrap-js/bootstrap.js"></script> -->
-<script src="static/Js/bootstrap-js/bootstrap.min.js"></script>
 <!-- <script src="static/Js/bootstrap-js/bootstrap.bundle.js"></script> -->
 <script src="static/Js/bootstrap-js/bootstrap.bundle.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="static/Js/common.js"></script>
+<script src="static/Js/bootstrap-js/bootstrap.min.js"></script>
 <script type="text/javascript" src="static/Js/login.js"></script>
-<script>
-  if ("{{login_success}}" == "False"){
-    alert("Login Failed");
-  }
-</script>
 </html>

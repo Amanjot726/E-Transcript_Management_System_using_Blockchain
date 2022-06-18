@@ -498,8 +498,10 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
   margin: 10px auto;
   border-radius: 10px;
   background-color: #fafafa;
-  -webkit-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+  -webkit-transition: background-color 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
 }
 
 .left-sidebar .options .option.active {
@@ -647,8 +649,8 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
   font-weight: bold;
   font-family: Lato;
   letter-spacing: 0.8px;
-  -webkit-transition: all 0.15s ease-in-out;
-  transition: all 0.15s ease-in-out;
+  -webkit-transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
   text-transform: uppercase;
   cursor: pointer;
 }

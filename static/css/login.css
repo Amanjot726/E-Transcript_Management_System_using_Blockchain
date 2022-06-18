@@ -17,6 +17,36 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
 /* #login-f{display: none;} */
 #signup-f{display: none;}
 
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  background-color: rgba(51, 51, 51, 0.938);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 16px;
+  position: fixed;
+  z-index: 999999;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 30px;
+  font-family: Raleway;
+  font-size: 15px;
+  }
+  
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.4s, fadeout 0.4s 2.6s;
+  animation: fadein 0.4s, fadeout 0.4s 2.6s;
+}
+
+.spinner-border{
+  width: 1.2rem;
+  height: 1.2rem;
+  margin: auto 10.59px;
+  border-width: 0.15em;
+}
+
 
 .btn-outline-primary {
   color: #048d58;
@@ -514,9 +544,9 @@ p::selection{background-color: rgba(161, 238, 110, 0.842);color: rgb(3, 83, 7);}
     width: 410px;
     border-radius: 25px;
     background-color: rgb(251, 251, 251);
-    -webkit-transition: 400ms linear;
-    -o-transition: 400ms linear;
-    transition: 400ms linear;
+    -webkit-transition: -webkit-box-shadow 400ms linear;
+    -o-transition: box-shadow 400ms linear;
+    transition: box-shadow 400ms linear;
     -webkit-box-shadow: 0 6px 14px 6px rgba(0, 0, 0, 0.047), 0 14px 20px 5px rgba(0, 0, 0, 0.02),
       0 1px 12px -3px rgba(0, 0, 0, 0.092);
     box-shadow: 0 6px 14px 6px rgba(0, 0, 0, 0.047), 0 14px 20px 5px rgba(0, 0, 0, 0.02),
