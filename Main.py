@@ -246,6 +246,12 @@ def login():
                     return jsonify(response), 200
                 else:
                     return redirect_dest(fallback=url_for('Dashboard'))
+            else:
+                if js_status == 'Enabled':
+                    response = {'login_success': False, 'redirect': False}
+                    return jsonify(response), 200
+                else:
+                    return render_template('login.html', login_success=False)
         else:
             if js_status == 'Enabled':
                 response = {'login_success': False,'redirect': False}
